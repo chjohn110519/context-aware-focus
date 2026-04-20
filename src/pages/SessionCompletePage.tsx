@@ -29,7 +29,7 @@ export default function SessionCompletePage() {
         currentSetId as QuestionSetId,
         state.currentSessionIndex + 1,
         state.eventLog,
-        8 // total questions per set
+        10 // total questions per set
       );
       setDownloaded(true);
     }
@@ -97,7 +97,7 @@ export default function SessionCompletePage() {
             </div>
             <div className="flex justify-between">
               <span>답변한 문제</span>
-              <span className="font-bold text-white">{answeredCount} / 8</span>
+              <span className="font-bold text-white">{answeredCount} / 10</span>
             </div>
             <div className="flex justify-between">
               <span>세션 순서</span>
