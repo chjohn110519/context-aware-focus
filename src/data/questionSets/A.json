@@ -1,0 +1,95 @@
+{
+  "setId": "A",
+  "questions": [
+    {
+      "id": "A1",
+      "type": "multiple_choice",
+      "text": "인간공학에서 '적합성(Compatibility)'의 개념으로 가장 적절한 것은?",
+      "options": [
+        { "id": "a", "text": "사용자의 기대와 시스템 반응 간의 일치 정도" },
+        { "id": "b", "text": "시스템의 처리 속도와 정확도" },
+        { "id": "c", "text": "물리적 작업 환경의 조명 수준" },
+        { "id": "d", "text": "작업자의 피로도 측정 방법" }
+      ],
+      "correctAnswer": "a"
+    },
+    {
+      "id": "A2",
+      "type": "multiple_choice",
+      "text": "Fitts의 법칙에 따르면, 이동 시간에 영향을 미치는 두 가지 요인은?",
+      "options": [
+        { "id": "a", "text": "목표까지의 거리와 목표의 크기" },
+        { "id": "b", "text": "사용자의 나이와 성별" },
+        { "id": "c", "text": "조명 조건과 소음 수준" },
+        { "id": "d", "text": "작업 복잡도와 훈련 시간" }
+      ],
+      "correctAnswer": "a"
+    },
+    {
+      "id": "A3",
+      "type": "multiple_choice",
+      "text": "신호 탐지 이론(SDT)에서 'd-prime(d′)'이 나타내는 것은?",
+      "options": [
+        { "id": "a", "text": "반응 편향의 정도" },
+        { "id": "b", "text": "신호와 소음의 분리 가능성(민감도)" },
+        { "id": "c", "text": "오경보율의 빈도" },
+        { "id": "d", "text": "정확한 기각의 비율" }
+      ],
+      "correctAnswer": "b"
+    },
+    {
+      "id": "A4",
+      "type": "multiple_choice",
+      "text": "다음 중 단기기억(Working Memory)의 용량에 대한 Miller의 매직넘버는?",
+      "options": [
+        { "id": "a", "text": "3 ± 1" },
+        { "id": "b", "text": "5 ± 2" },
+        { "id": "c", "text": "7 ± 2" },
+        { "id": "d", "text": "9 ± 3" }
+      ],
+      "correctAnswer": "c"
+    },
+    {
+      "id": "A5",
+      "type": "multiple_choice",
+      "text": "NIOSH 들기 작업 지침에서 권장 무게 한계(RWL)를 초과하는 작업의 위험 지표는?",
+      "options": [
+        { "id": "a", "text": "들기 지수(Lifting Index)가 1.0 초과" },
+        { "id": "b", "text": "들기 지수(Lifting Index)가 0.5 초과" },
+        { "id": "c", "text": "작업 빈도가 분당 5회 초과" },
+        { "id": "d", "text": "물체 무게가 10kg 초과" }
+      ],
+      "correctAnswer": "a"
+    },
+    {
+      "id": "A6",
+      "type": "short_answer",
+      "text": "인간공학 설계에서 '인구 수용 설계(Design for Adjustability)'가 사용하는 백분위 범위를 쓰시오. (예: OO ~ OO 백분위)",
+      "correctAnswer": "5~95"
+    },
+    {
+      "id": "A7",
+      "type": "multiple_choice",
+      "text": "Hick-Hyman의 법칙에 따르면, 반응 시간은 선택지 수가 증가할수록 어떻게 변하는가?",
+      "options": [
+        { "id": "a", "text": "선형적으로 증가한다" },
+        { "id": "b", "text": "로그 함수적으로 증가한다" },
+        { "id": "c", "text": "지수적으로 증가한다" },
+        { "id": "d", "text": "변하지 않는다" }
+      ],
+      "correctAnswer": "b"
+    },
+    {
+      "id": "A8",
+      "type": "multiple_choice",
+      "text": "다음 중 NASA-TLX에서 측정하지 않는 차원은?",
+      "options": [
+        { "id": "a", "text": "정신적 요구(Mental Demand)" },
+        { "id": "b", "text": "시간적 요구(Temporal Demand)" },
+        { "id": "c", "text": "사회적 요구(Social Demand)" },
+        { "id": "d", "text": "좌절감(Frustration)" }
+      ],
+      "correctAnswer": "c"
+    }
+  ]
+}

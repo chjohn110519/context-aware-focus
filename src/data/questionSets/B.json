@@ -1,0 +1,95 @@
+{
+  "setId": "B",
+  "questions": [
+    {
+      "id": "B1",
+      "type": "multiple_choice",
+      "text": "인간-기계 시스템에서 '제어-표시 비율(C/D ratio)'이 높을 때 나타나는 특성은?",
+      "options": [
+        { "id": "a", "text": "작은 제어 움직임으로 큰 표시 변화가 발생한다" },
+        { "id": "b", "text": "큰 제어 움직임으로 작은 표시 변화가 발생한다" },
+        { "id": "c", "text": "제어와 표시의 변화가 동일하다" },
+        { "id": "d", "text": "표시 장치의 해상도가 증가한다" }
+      ],
+      "correctAnswer": "b"
+    },
+    {
+      "id": "B2",
+      "type": "multiple_choice",
+      "text": "시각적 탐색에서 '팝아웃(Pop-out)' 효과가 나타나는 조건은?",
+      "options": [
+        { "id": "a", "text": "목표 자극이 방해 자극과 하나의 특징 차원에서 다를 때" },
+        { "id": "b", "text": "목표 자극이 방해 자극과 여러 특징이 결합되어 다를 때" },
+        { "id": "c", "text": "방해 자극의 수가 매우 적을 때" },
+        { "id": "d", "text": "탐색 영역이 좁을 때" }
+      ],
+      "correctAnswer": "a"
+    },
+    {
+      "id": "B3",
+      "type": "multiple_choice",
+      "text": "Wickens의 다중 자원 이론(MRT)에 따르면, 두 과제의 간섭이 최소화되는 조건은?",
+      "options": [
+        { "id": "a", "text": "두 과제가 동일한 감각 양식을 사용할 때" },
+        { "id": "b", "text": "두 과제가 서로 다른 자원 차원을 사용할 때" },
+        { "id": "c", "text": "두 과제의 난이도가 동일할 때" },
+        { "id": "d", "text": "두 과제를 번갈아 수행할 때" }
+      ],
+      "correctAnswer": "b"
+    },
+    {
+      "id": "B4",
+      "type": "multiple_choice",
+      "text": "작업장 설계에서 '중립 자세(Neutral Posture)'의 핵심 원칙은?",
+      "options": [
+        { "id": "a", "text": "관절이 가동 범위의 중간에 위치하여 근육 부하를 최소화" },
+        { "id": "b", "text": "모든 관절을 최대한 펴는 것" },
+        { "id": "c", "text": "팔꿈치를 90도 이하로 유지하는 것" },
+        { "id": "d", "text": "목을 15도 이상 숙이는 것" }
+      ],
+      "correctAnswer": "a"
+    },
+    {
+      "id": "B5",
+      "type": "multiple_choice",
+      "text": "RULA(Rapid Upper Limb Assessment)에서 최종 점수 7점은 어떤 조치를 의미하는가?",
+      "options": [
+        { "id": "a", "text": "수용 가능한 자세" },
+        { "id": "b", "text": "추가 조사 필요" },
+        { "id": "c", "text": "곧 개선 필요" },
+        { "id": "d", "text": "즉각적인 개선 필요" }
+      ],
+      "correctAnswer": "d"
+    },
+    {
+      "id": "B6",
+      "type": "short_answer",
+      "text": "인간의 시각 시스템에서 중심시(Foveal Vision)가 높은 해상도를 제공하는 시각 범위(각도)를 쓰시오.",
+      "correctAnswer": "2"
+    },
+    {
+      "id": "B7",
+      "type": "multiple_choice",
+      "text": "경보 시스템 설계에서 '오경보(False Alarm)' 비율이 높을 때 발생하는 주요 문제는?",
+      "options": [
+        { "id": "a", "text": "경보에 대한 신뢰도 저하 (경보 피로)" },
+        { "id": "b", "text": "탐지율 증가" },
+        { "id": "c", "text": "반응 시간 단축" },
+        { "id": "d", "text": "시스템 정확도 향상" }
+      ],
+      "correctAnswer": "a"
+    },
+    {
+      "id": "B8",
+      "type": "multiple_choice",
+      "text": "인지부하 이론에서 '외재적 인지부하(Extraneous Cognitive Load)'를 줄이기 위한 설계 원칙은?",
+      "options": [
+        { "id": "a", "text": "불필요한 정보와 중복 표현을 제거" },
+        { "id": "b", "text": "학습 내용의 복잡성 증가" },
+        { "id": "c", "text": "자유 탐색 환경 제공" },
+        { "id": "d", "text": "모든 정보를 동시에 제시" }
+      ],
+      "correctAnswer": "a"
+    }
+  ]
+}
