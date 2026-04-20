@@ -12,7 +12,7 @@ export default function QuestionCard({ question, questionNumber, onAnswer }: Que
   const [textAnswer, setTextAnswer] = useState('');
 
   const handleSubmit = () => {
-    const answer = question.type === 'multiple_choice' ? selected : textAnswer.trim();
+    const answer = question.type === 'choice' ? selected : textAnswer.trim();
     if (answer) {
       onAnswer(answer);
       setSelected('');
@@ -20,28 +20,28 @@ export default function QuestionCard({ question, questionNumber, onAnswer }: Que
     }
   };
 
-  const isAnswered = question.type === 'multiple_choice' ? !!selected : !!textAnswer.trim();
+  const isAnswered = question.type === 'choice' ? !!selected : !!textAnswer.trim();
 
   return (
     <div className="question-card fade-in">
       <h3>문제 {questionNumber}</h3>
       <p>{question.text}</p>
 
-      {question.type === 'multiple_choice' && question.options ? (
+      {question.type === 'choice' && question.options ? (
         <div className="option-group">
-          {question.options.map((option) => (
+          {question.options.map((option, idx) => (
             <label
-              key={option.id}
-              className={`option-label ${selected === option.id ? 'selected' : ''}`}
+              key={idx}
+              className={`option-label ${selected === option ? 'selected' : ''}`}
             >
               <input
                 type="radio"
                 name={`q-${question.id}`}
-                value={option.id}
-                checked={selected === option.id}
-                onChange={() => setSelected(option.id)}
+                value={option}
+                checked={selected === option}
+                onChange={() => setSelected(option)}
               />
-              <span>{option.text}</span>
+              <span>{option}</span>
             </label>
           ))}
         </div>
@@ -64,7 +64,7 @@ export default function QuestionCard({ question, questionNumber, onAnswer }: Que
           disabled={!isAnswered}
           onClick={handleSubmit}
         >
-          {questionNumber < 8 ? '다음 문제' : '제출'}
+          {questionNumber < 10 ? '다음 문제' : '제출'}
         </button>
       </div>
     </div>

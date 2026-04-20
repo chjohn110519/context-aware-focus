@@ -7,8 +7,8 @@ interface SessionLayoutProps {
   condition: Condition;
   timerFormatted: string;
   timerWarning: boolean;
-  currentQuestion: number;
-  totalQuestions: number;
+  currentQuestion?: number;
+  totalQuestions?: number;
   children: ReactNode;
   rightPanel?: ReactNode;
   topRight?: ReactNode;
@@ -44,9 +44,11 @@ export default function SessionLayout({
         {/* Question Area */}
         <main className="flex-1 flex flex-col items-center justify-center p-8 gap-6">
           {children}
-          <div className="w-full max-w-[720px]">
-            <ProgressBar current={currentQuestion} total={totalQuestions} />
-          </div>
+          {currentQuestion !== undefined && totalQuestions !== undefined && (
+            <div className="w-full max-w-[720px]">
+              <ProgressBar current={currentQuestion} total={totalQuestions} />
+            </div>
+          )}
         </main>
 
         {/* Optional Right Panel (C3 tree) */}

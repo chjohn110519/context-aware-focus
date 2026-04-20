@@ -1,0 +1,50 @@
+{
+  "title": "Part I–II: VDT Screen, Graphics/Symbols & Dynamic Displays",
+  "subtitle": "Section 03–05 (VDT 화면 설계, 그래픽/기호, 동적 디스플레이)",
+  "sections": [
+    {
+      "heading": "3-1. VDT 읽기가 느린 이유",
+      "content": "VDT(Visual Display Terminal)에서의 읽기 속도는 인쇄물보다 20–30% 느립니다. 근본 원인은 낮은 이미지 품질(해상도)로 인한 픽셀 기반 문자의 불명확한 가장자리와, Spatial Frequency Channels에서 도트 매트릭스 문자가 뇌의 처리 효율을 저하시키기 때문입니다."
+    },
+    {
+      "heading": "3-2. Character Matrix & Polarity",
+      "content": "최소 표준: 연속 텍스트 읽기에 7×9 도트 매트릭스 필요. 장시간 작업에는 15×24 이상 선호. Positive Polarity(Dark-on-Light)가 일반적으로 선호(종이와 유사). Negative Polarity(Light-on-Dark)는 깜빡임 인식을 줄이지만 눈부심(glare) 위험 증가."
+    },
+    {
+      "heading": "3-3. VDT 화면의 색상 가이드라인",
+      "content": "Chromostereopsis: 빨간색이 파란색보다 가까이 보임(색수차). 채도 높은 빨강/파랑 쌍 피하기. 어두운 배경에 파란색 텍스트 피하기. 디스플레이당 5–7가지 색상으로 제한. 색맹 사용자를 위해 중복 코딩(모양+색상) 보장."
+    },
+    {
+      "heading": "3-4. Screen Density & Grouping",
+      "content": "전체 밀도 40–50% 이하 유지, 최적 약 25%. 정보를 약 5도의 시각(visual angle)을 이루는 그룹으로 조직. 이상적 그룹: 12–14문자 너비 × 6–7줄 높이. 열(column) 사용으로 예측 가능한 수직 정렬."
+    },
+    {
+      "heading": "3-5. Highlighting & Blinking",
+      "content": "Highlighting은 Validity > 50%일 때만 효과적. 사용자가 강조 신호가 무관하다고 학습하면 완전히 무시. Blinking은 긴급 경고/비상 상황에만 사용. 깜빡이는 텍스트는 읽기 극히 어렵고 주의를 빼앗음."
+    },
+    {
+      "heading": "4-1. Graphics, Symbols & Visual Codes 기준",
+      "content": "Accuracy(정확도), Speed(반응 시간), Ease of recall(회상 용이성), Preference(선호도)로 평가. PPE 안전 기호 연구: 초기 인식률 10–50%, 1주일 후 회상률 73–100%로 향상."
+    },
+    {
+      "heading": "4-2. 데이터 그래프의 지각적 왜곡 방지",
+      "content": "3D 블록 차트는 부피(Volume)를 인식하여 왜곡(2배 값이 ~4배 크게 보임). 2D 바 차트가 1:1 대응으로 정확. Y축에 0 기준이 없으면 차이 과장. 장식적 왜곡 없이 가장 단순한 표현 사용."
+    },
+    {
+      "heading": "4-3. Symbols vs. Verbal Signs & 기호 설계 원칙",
+      "content": "기호 반응 시간 약 0.6초 vs 언어 표지판 약 0.9초. 기호는 Language Recoding 불필요, Superior Legibility Distance. 설계 원칙: Figure-to-Ground(명확한 분절), Closure(닫힌 도형 선호), Simplicity(단순함), Unity(통합적)."
+    },
+    {
+      "heading": "4-4. Visual Coding Dimensions",
+      "content": "Color: 9–24 구분 수준, Searching에 최적. Shape/Symbol: 15+ 수준, 탐색 & 식별. Alphanumeric: 무제한, Identification에 최적. Flash Rate: 2수준, 긴급/경고만. 핵심: 탐색 과제→Color, 식별 과제→Alphanumeric."
+    },
+    {
+      "heading": "5-1. 동적 디스플레이 & 정량적 디스플레이",
+      "content": "Quantitative readings(정밀 수치), Qualitative readings(추세/변화율), Check readings(정상 범위 확인), Situation awareness(상태 인식·예측). Analog(Fixed scale/Moving pointer가 가장 일반적), Digital(정밀 읽기, 추세 파악 부적합). Analog는 변화 방향/속도가 중요할 때, Digital은 정밀한 수치가 필요할 때."
+    },
+    {
+      "heading": "5-2. Pointer Design Guidelines",
+      "content": "Tip Angle ~20°, 포인터 끝이 눈금선에 닿되 겹치지 않아야 함. Parallax(시차) 최소화를 위해 포인터를 눈금 표면에 가깝게 장착. 포인터 색상이 끝에서 축까지 연장되어야 함."
+    }
+  ]
+}

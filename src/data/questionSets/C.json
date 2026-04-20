@@ -1,95 +1,109 @@
 {
-  "setId": "C",
   "questions": [
     {
-      "id": "C1",
-      "type": "multiple_choice",
-      "text": "Rasmussen의 SRK 모델에서 '규칙 기반(Rule-Based)' 행동의 특징은?",
+      "id": "C-Q1",
+      "type": "choice",
+      "text": "Proximity Compatibility Principle에서 Mental Integration Task에 적합한 Display Proximity 수준은?",
       "options": [
-        { "id": "a", "text": "자동화된 행동 패턴으로 의식적 주의가 불필요" },
-        { "id": "b", "text": "저장된 규칙(If-Then)을 상황에 매칭하여 행동" },
-        { "id": "c", "text": "목표를 분석하고 새로운 해결책을 도출" },
-        { "id": "d", "text": "감각 자극에 대한 직접적 반사 반응" }
+        "낮은 display proximity",
+        "높은 display proximity",
+        "display proximity와 무관",
+        "중간 display proximity"
       ],
-      "correctAnswer": "b"
+      "correctAnswer": "높은 display proximity"
     },
     {
-      "id": "C2",
-      "type": "multiple_choice",
-      "text": "Swiss Cheese 모델에서 사고 발생의 원인 설명으로 올바른 것은?",
+      "id": "C-Q2",
+      "type": "choice",
+      "text": "Emergent Features의 정의로 올바른 것은?",
       "options": [
-        { "id": "a", "text": "단일 방어층의 실패로 사고 발생" },
-        { "id": "b", "text": "여러 방어층의 구멍(결함)이 동시에 정렬되어 사고 발생" },
-        { "id": "c", "text": "작업자의 부주의만이 사고의 원인" },
-        { "id": "d", "text": "기술적 결함만이 사고를 유발" }
+        "각 부분의 합으로 예측 가능한 속성",
+        "개별 부분에는 존재하지 않는 전체의 지각적 속성",
+        "디지털 디스플레이에서만 나타나는 현상",
+        "색상 코딩으로만 생성되는 속성"
       ],
-      "correctAnswer": "b"
+      "correctAnswer": "개별 부분에는 존재하지 않는 전체의 지각적 속성"
     },
     {
-      "id": "C3",
-      "type": "multiple_choice",
-      "text": "상황인식(Situation Awareness)의 Endsley 모델에서 Level 2는 무엇을 의미하는가?",
+      "id": "C-Q3",
+      "type": "choice",
+      "text": "Object Display가 방해가 되는 과제 유형은?",
       "options": [
-        { "id": "a", "text": "환경 요소의 지각(Perception)" },
-        { "id": "b", "text": "현재 상황의 이해(Comprehension)" },
-        { "id": "c", "text": "미래 상태의 예측(Projection)" },
-        { "id": "d", "text": "의사결정(Decision Making)" }
+        "Integration Tasks",
+        "Pattern Recognition",
+        "Focused Attention Tasks",
+        "Rapid State Detection"
       ],
-      "correctAnswer": "b"
+      "correctAnswer": "Focused Attention Tasks"
     },
     {
-      "id": "C4",
-      "type": "multiple_choice",
-      "text": "조명 설계에서 '글레어(Glare)'를 줄이기 위한 방법으로 적절하지 않은 것은?",
-      "options": [
-        { "id": "a", "text": "간접 조명 사용" },
-        { "id": "b", "text": "광원의 휘도 감소" },
-        { "id": "c", "text": "광원을 시선 방향에 직접 배치" },
-        { "id": "d", "text": "차광판(Louver) 설치" }
-      ],
-      "correctAnswer": "c"
+      "id": "C-Q4",
+      "type": "choice",
+      "text": "Qualitative Display의 Color Coding에서 '정상' 상태를 나타내는 색은?",
+      "options": ["Red", "Yellow", "Green", "Blue"],
+      "correctAnswer": "Green"
     },
     {
-      "id": "C5",
-      "type": "multiple_choice",
-      "text": "사용성 평가에서 SUS(System Usability Scale) 점수의 해석으로 올바른 것은?",
-      "options": [
-        { "id": "a", "text": "68점 이상이면 평균 이상의 사용성" },
-        { "id": "b", "text": "50점이면 우수한 사용성" },
-        { "id": "c", "text": "100점 만점 중 90점이면 보통" },
-        { "id": "d", "text": "SUS 점수는 절대적 기준이 없음" }
-      ],
-      "correctAnswer": "a"
+      "id": "C-Q5",
+      "type": "choice",
+      "text": "Check Reading에서 모든 정상 포인터를 정렬하는 방향은?",
+      "options": ["3시 방향", "6시 방향", "9시 방향", "12시 방향만"],
+      "correctAnswer": "9시 방향"
     },
     {
-      "id": "C6",
-      "type": "short_answer",
-      "text": "소음 노출 기준에서 OSHA의 허용 소음 수준(PEL)은 8시간 기준 몇 dBA인지 쓰시오.",
-      "correctAnswer": "90"
+      "id": "C-Q6",
+      "type": "choice",
+      "text": "Signal & Warning Lights의 최적 Flash Rate 범위는?",
+      "options": ["0.5–1 Hz", "3–10 Hz", "15–20 Hz", "30–60 Hz"],
+      "correctAnswer": "3–10 Hz"
     },
     {
-      "id": "C7",
-      "type": "multiple_choice",
-      "text": "Norman의 행동 7단계 모델에서 '실행의 만(Gulf of Execution)'은 무엇을 의미하는가?",
+      "id": "C-Q7",
+      "type": "choice",
+      "text": "Situation Awareness의 Level 3(Projection)에 해당하는 질문은?",
       "options": [
-        { "id": "a", "text": "사용자의 의도와 시스템의 허용 행동 간의 차이" },
-        { "id": "b", "text": "시스템의 출력과 사용자의 기대 간의 차이" },
-        { "id": "c", "text": "학습에 소요되는 시간" },
-        { "id": "d", "text": "오류 발생 후 복구까지의 시간" }
+        "지금 무슨 일이 일어나고 있나?",
+        "이것이 무엇을 의미하나?",
+        "다음에 무슨 일이 일어날까?",
+        "이전에 무슨 일이 있었나?"
       ],
-      "correctAnswer": "a"
+      "correctAnswer": "다음에 무슨 일이 일어날까?"
     },
     {
-      "id": "C8",
-      "type": "multiple_choice",
-      "text": "반복 작업에 의한 근골격계 질환(MSD) 예방을 위한 인간공학적 해결책은?",
+      "id": "C-Q8",
+      "type": "choice",
+      "text": "Roscoe's Principles 중 '목표와 추종자가 모두 움직이는 디스플레이'를 지지하는 원칙은?",
       "options": [
-        { "id": "a", "text": "작업 속도를 더 높여 빨리 끝내기" },
-        { "id": "b", "text": "작업 회전, 휴식 제공, 공구 재설계" },
-        { "id": "c", "text": "보호 장비만 착용" },
-        { "id": "d", "text": "작업자를 더 강한 사람으로 교체" }
+        "Pictorial Realism",
+        "Compatible Motion",
+        "Integration",
+        "Pursuit Presentation"
       ],
-      "correctAnswer": "b"
+      "correctAnswer": "Pursuit Presentation"
+    },
+    {
+      "id": "C-Q9",
+      "type": "choice",
+      "text": "HUD의 Dark Focus Trap으로 인해 발생하는 지각 왜곡은?",
+      "options": [
+        "Macropsia (거대시증)",
+        "Micropsia (소시증)",
+        "Diplopia (복시)",
+        "Astigmatism (난시)"
+      ],
+      "correctAnswer": "Micropsia (소시증)"
+    },
+    {
+      "id": "C-Q10",
+      "type": "choice",
+      "text": "3D 원근법 디스플레이가 2D보다 더 느린 예외 상황은?",
+      "options": [
+        "측면 교통",
+        "후방 교통",
+        "정면 충돌(head-on) 교통",
+        "수직 접근 교통"
+      ],
+      "correctAnswer": "정면 충돌(head-on) 교통"
     }
   ]
 }

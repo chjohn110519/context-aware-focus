@@ -1,95 +1,94 @@
 {
-  "setId": "B",
   "questions": [
     {
-      "id": "B1",
-      "type": "multiple_choice",
-      "text": "인간-기계 시스템에서 '제어-표시 비율(C/D ratio)'이 높을 때 나타나는 특성은?",
-      "options": [
-        { "id": "a", "text": "작은 제어 움직임으로 큰 표시 변화가 발생한다" },
-        { "id": "b", "text": "큰 제어 움직임으로 작은 표시 변화가 발생한다" },
-        { "id": "c", "text": "제어와 표시의 변화가 동일하다" },
-        { "id": "d", "text": "표시 장치의 해상도가 증가한다" }
-      ],
-      "correctAnswer": "b"
+      "id": "B-Q1",
+      "type": "choice",
+      "text": "VDT에서의 읽기 속도는 인쇄물보다 약 얼마나 느린가?",
+      "options": ["약 5–10%", "약 20–30%", "약 40–50%", "약 60–70%"],
+      "correctAnswer": "약 20–30%"
     },
     {
-      "id": "B2",
-      "type": "multiple_choice",
-      "text": "시각적 탐색에서 '팝아웃(Pop-out)' 효과가 나타나는 조건은?",
-      "options": [
-        { "id": "a", "text": "목표 자극이 방해 자극과 하나의 특징 차원에서 다를 때" },
-        { "id": "b", "text": "목표 자극이 방해 자극과 여러 특징이 결합되어 다를 때" },
-        { "id": "c", "text": "방해 자극의 수가 매우 적을 때" },
-        { "id": "d", "text": "탐색 영역이 좁을 때" }
-      ],
-      "correctAnswer": "a"
+      "id": "B-Q2",
+      "type": "choice",
+      "text": "연속 텍스트 읽기에 필요한 최소 Character Matrix Size는?",
+      "options": ["3 × 5", "5 × 7", "7 × 9", "15 × 24"],
+      "correctAnswer": "7 × 9"
     },
     {
-      "id": "B3",
-      "type": "multiple_choice",
-      "text": "Wickens의 다중 자원 이론(MRT)에 따르면, 두 과제의 간섭이 최소화되는 조건은?",
-      "options": [
-        { "id": "a", "text": "두 과제가 동일한 감각 양식을 사용할 때" },
-        { "id": "b", "text": "두 과제가 서로 다른 자원 차원을 사용할 때" },
-        { "id": "c", "text": "두 과제의 난이도가 동일할 때" },
-        { "id": "d", "text": "두 과제를 번갈아 수행할 때" }
-      ],
-      "correctAnswer": "b"
+      "id": "B-Q3",
+      "type": "choice",
+      "text": "VDT 화면에서 디스플레이당 권장되는 최대 색상 수는?",
+      "options": ["2–3가지", "5–7가지", "10–15가지", "20가지 이상"],
+      "correctAnswer": "5–7가지"
     },
     {
-      "id": "B4",
-      "type": "multiple_choice",
-      "text": "작업장 설계에서 '중립 자세(Neutral Posture)'의 핵심 원칙은?",
-      "options": [
-        { "id": "a", "text": "관절이 가동 범위의 중간에 위치하여 근육 부하를 최소화" },
-        { "id": "b", "text": "모든 관절을 최대한 펴는 것" },
-        { "id": "c", "text": "팔꿈치를 90도 이하로 유지하는 것" },
-        { "id": "d", "text": "목을 15도 이상 숙이는 것" }
-      ],
-      "correctAnswer": "a"
+      "id": "B-Q4",
+      "type": "choice",
+      "text": "Screen Density의 최적 밀도(Overall Density)는 약 얼마인가?",
+      "options": ["약 10%", "약 25%", "약 50%", "약 75%"],
+      "correctAnswer": "약 25%"
     },
     {
-      "id": "B5",
-      "type": "multiple_choice",
-      "text": "RULA(Rapid Upper Limb Assessment)에서 최종 점수 7점은 어떤 조치를 의미하는가?",
+      "id": "B-Q5",
+      "type": "choice",
+      "text": "Highlighting의 효과가 사라지는 주된 원인은?",
       "options": [
-        { "id": "a", "text": "수용 가능한 자세" },
-        { "id": "b", "text": "추가 조사 필요" },
-        { "id": "c", "text": "곧 개선 필요" },
-        { "id": "d", "text": "즉각적인 개선 필요" }
+        "색상이 너무 밝을 때",
+        "Validity가 낮아 사용자가 강조 신호를 무시하게 될 때",
+        "폰트 크기가 작을 때",
+        "화면 해상도가 높을 때"
       ],
-      "correctAnswer": "d"
+      "correctAnswer": "Validity가 낮아 사용자가 강조 신호를 무시하게 될 때"
     },
     {
-      "id": "B6",
-      "type": "short_answer",
-      "text": "인간의 시각 시스템에서 중심시(Foveal Vision)가 높은 해상도를 제공하는 시각 범위(각도)를 쓰시오.",
-      "correctAnswer": "2"
+      "id": "B-Q6",
+      "type": "choice",
+      "text": "기호(Symbol) 표지판의 반응 시간은 언어(Verbal) 표지판에 비해 약 얼마나 빠른가?",
+      "options": ["약 0.1초", "약 0.3초", "약 0.6초", "약 1.0초"],
+      "correctAnswer": "약 0.3초"
     },
     {
-      "id": "B7",
-      "type": "multiple_choice",
-      "text": "경보 시스템 설계에서 '오경보(False Alarm)' 비율이 높을 때 발생하는 주요 문제는?",
-      "options": [
-        { "id": "a", "text": "경보에 대한 신뢰도 저하 (경보 피로)" },
-        { "id": "b", "text": "탐지율 증가" },
-        { "id": "c", "text": "반응 시간 단축" },
-        { "id": "d", "text": "시스템 정확도 향상" }
-      ],
-      "correctAnswer": "a"
+      "id": "B-Q7",
+      "type": "choice",
+      "text": "Visual Coding에서 탐색(Searching) 과제에 가장 적합한 코딩 유형은?",
+      "options": ["Alphanumeric", "Color", "Flash Rate", "Inclination Angle"],
+      "correctAnswer": "Color"
     },
     {
-      "id": "B8",
-      "type": "multiple_choice",
-      "text": "인지부하 이론에서 '외재적 인지부하(Extraneous Cognitive Load)'를 줄이기 위한 설계 원칙은?",
+      "id": "B-Q8",
+      "type": "choice",
+      "text": "3D 블록 차트의 문제점은 무엇인가?",
       "options": [
-        { "id": "a", "text": "불필요한 정보와 중복 표현을 제거" },
-        { "id": "b", "text": "학습 내용의 복잡성 증가" },
-        { "id": "c", "text": "자유 탐색 환경 제공" },
-        { "id": "d", "text": "모든 정보를 동시에 제시" }
+        "색상 구분이 어렵다",
+        "높이만 인식되어 정확하다",
+        "사용자가 부피(Volume)를 인식하여 차이가 과장된다",
+        "해상도가 낮다"
       ],
-      "correctAnswer": "a"
+      "correctAnswer": "사용자가 부피(Volume)를 인식하여 차이가 과장된다"
+    },
+    {
+      "id": "B-Q9",
+      "type": "choice",
+      "text": "Analog Display가 Digital Display보다 적합한 경우는?",
+      "options": [
+        "정밀한 수치 값이 필요할 때",
+        "값이 천천히 변하거나 안정적일 때",
+        "변화의 방향이나 속도가 중요할 때",
+        "정확한 숫자 기록 과제일 때"
+      ],
+      "correctAnswer": "변화의 방향이나 속도가 중요할 때"
+    },
+    {
+      "id": "B-Q10",
+      "type": "choice",
+      "text": "Pointer Design에서 시차(Parallax) 오류를 최소화하는 방법은?",
+      "options": [
+        "포인터를 두껍게 만든다",
+        "포인터를 눈금 표면에 가능한 한 가깝게 장착한다",
+        "포인터 색상을 빨간색으로 한다",
+        "포인터 끝 각도를 90°로 설정한다"
+      ],
+      "correctAnswer": "포인터를 눈금 표면에 가능한 한 가깝게 장착한다"
     }
   ]
 }

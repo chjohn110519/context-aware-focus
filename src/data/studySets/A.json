@@ -1,0 +1,50 @@
+{
+  "title": "Part I: Visual Capabilities & Hardcopy Text Design",
+  "subtitle": "Section 01–02 (시각 능력 및 인쇄 텍스트 설계)",
+  "sections": [
+    {
+      "heading": "1-1. 눈의 해부학적 구조",
+      "content": "Cornea(각막)는 전체 초점 능력의 65–75%를 담당합니다. Lens(수정체)는 accommodation(조절) 과정을 통해 초점을 미세 조절합니다. Retina(망막)는 Rods(간상세포)와 Cones(원추세포)를 포함하며, Fovea(중심와)는 오직 원추세포로만 구성되어 선명한 중심시와 최고의 시력을 담당합니다."
+    },
+    {
+      "heading": "1-2. Rods vs. Cones",
+      "content": "Cones(원추세포)는 약 600–700만 개로 Fovea에 집중되며 Photopic vision(주간 시각)과 색각을 담당합니다. Rods(간상세포)는 약 1억 3천만 개로 주변부 망막에 분포하며 Scotopic vision(야간 시각)과 움직임 감지를 담당합니다. 어두운 조건에서는 Rods에 의존하므로 색 지각이 소실됩니다."
+    },
+    {
+      "heading": "1-3. Visual Accommodation & Dark Focus",
+      "content": "Accommodation은 수정체가 모양을 변화시켜 빛을 망막 위에 정확히 초점을 맞추는 과정입니다. Near Point는 눈이 초점을 맞출 수 있는 가장 가까운 거리, Far Point는 가장 먼 거리입니다. Dark Focus는 완전한 어둠에서 눈이 약 1미터(1 Diopter)에 자발적으로 초점이 놓이는 현상으로, HUD 설계 시 night myopia(야간 근시)를 유발할 수 있습니다."
+    },
+    {
+      "heading": "1-4. Myopia vs. Hyperopia",
+      "content": "Myopia(근시)는 초점이 망막 앞에 맺혀 먼 물체가 흐릿하며 오목 렌즈(Concave)로 교정합니다. Hyperopia(원시)는 초점이 망막 뒤에 맺혀 가까운 물체가 흐릿하며 볼록 렌즈(Convex)로 교정합니다. Presbyopia(노안)는 수정체의 유연성이 감소하여 근거리 초점이 어려워지는 현상입니다."
+    },
+    {
+      "heading": "1-5. Visual Acuity (시력)",
+      "content": "Visual Acuity는 미세한 세부 사항을 구별하는 능력입니다. VA = H/D × 3,438 (H=대상 높이, D=관찰 거리). 표준 정상 시력(20/20)은 20피트에서 1분각을 이루는 대상을 식별하는 능력이며, Snellen 시력표로 측정합니다. 20/50은 정상보다 낮은 시력을 의미합니다."
+    },
+    {
+      "heading": "1-6. Contrast Sensitivity",
+      "content": "Contrast Sensitivity(대비 감도)는 저조도, 안개, 저대비 조건에서 물체를 배경과 구별하는 능력입니다. VA와 독립적으로 저하될 수 있으며, 20/20 시력이어도 대비 감도가 나쁠 수 있습니다. 야간 운전, 계단 이동 등에 필수적이며, 백내장, 녹내장, 노화 등이 원인입니다."
+    },
+    {
+      "heading": "1-7. VA & CS에 영향을 미치는 요인",
+      "content": "Luminance(휘도) 증가 → VA/CS 증가. Contrast(대비) 증가 → 향상. 노출 시간 100–200ms까지 VA 향상. 대상 움직임 60°/초 초과 시 급격히 악화. 40세 이후 VA/CS 저하. 훈련으로 향상 가능합니다."
+    },
+    {
+      "heading": "1-8. Color Vision & Dark/Light Adaptation",
+      "content": "3가지 원추세포: L-cones(Red), M-cones(Green), S-cones(Blue). 색각 결함: 남성 ~8%, 여성 ~0.5%. Dark Adaptation은 약 30분 소요(Rhodopsin 재생성), Phase 1(Cone, 0–5분) → Rod-Cone Break(5–10분) → Phase 2(Rod, 5–35분). Light Adaptation은 약 1분 이내 완료됩니다."
+    },
+    {
+      "heading": "2-1. HF/E Criteria for Text Design",
+      "content": "Visibility(가시성): 문자가 보이는 품질. Legibility(판독성): 문자가 서로 식별 가능한 품질. Readability(가독성): 연속 텍스트에서 인식 가능한 품질. 진행 순서: Visibility → Legibility → Readability."
+    },
+    {
+      "heading": "2-2. Typography & Stroke Width",
+      "content": "Black on White(정상 조명): 1:6~1:8 비율. White on Black: 1:8~1:10 (Irradiation Effect로 더 가는 획 필요). Boldface(저조도): 1:5. Stroke Width 공식: Ws = 1.45×10⁻⁵ × S × D. Letter Height: HL = Ws / R."
+    },
+    {
+      "heading": "2-3. Letter Case, Spacing & Readability",
+      "content": "소문자 텍스트가 대문자보다 읽기 쉬움(ascenders/descenders의 word envelope 효과). 적절한 행간이 눈의 피로를 줄이고 줄 추적에 도움. 표준 Point Size: 9–11pt. Flesch Reading Ease Score: 206.835 - (0.846×S) - (1.015×W). 60–70점이 일반 성인에 적합합니다."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Part II: Object Displays, Qualitative/Signal & Advanced Technologies",
+  "subtitle": "Section 06–08 (객체 디스플레이, 질적 표시, 첨단 기술)",
+  "sections": [
+    {
+      "heading": "6-1. Proximity Compatibility Principle",
+      "content": "Mental Proximity: 과제가 여러 정보원의 인지적 통합을 요구하는 정도. Display Proximity: 정보원이 공간적/지각적으로 그룹화된 정도. Mental Integration Task(변수 결합) → 높은 display proximity가 도움. Focused Attention Task(변수 분리) → 높은 display proximity가 방해. 설계 목표: display proximity를 mental proximity에 일치."
+    },
+    {
+      "heading": "6-2. Emergent Features",
+      "content": "개별 부분에는 존재하지 않는 전체의 지각적 속성. 예: 두 변수를 직사각형으로 결합 시 면적(AREA), 다각형으로 결합 시 형태(SHAPE)가 출현. 운영자가 여러 변수를 동시적(병렬 처리)으로 처리 가능. '정상' 시스템 상태는 대칭적 형태, 이상(anomaly)이 형태를 왜곡하여 즉각 인식 가능."
+    },
+    {
+      "heading": "6-3. Object Display의 장단점",
+      "content": "장점: Integration Tasks, Pattern Recognition, Rapid State Detection에 최적(발전소 안전 모니터링 등). 단점: Focused Attention Tasks에서 단일 변수 분리 어려움, 정확한 수치 추출 어려움, 특정 쿼리('정확한 RPM?')에 느림. 대안: 정밀 데이터 기록용 별도 디지털 카운터."
+    },
+    {
+      "heading": "7-1. Qualitative Displays",
+      "content": "대략적 값, 추세, 변화율이 필요할 때 사용. Color Coding: Green(정상), Yellow(주의), Red(위험)으로 영역 분할 → 인지 처리 시간 감소. Shape Coding: 색각 결함 사용자나 저조도에서 인식 보조."
+    },
+    {
+      "heading": "7-2. Check Reading: Gestalt 원리",
+      "content": "9 O'clock Alignment: 모든 정상 포인터를 9시 방향으로 정렬 → 일관된 수평선. Gestalt의 Similarity(유사성)와 Continuity(연속성) 활용. Pop-out Effect: 이탈 포인터가 전주의적(pre-attentive)으로 감지됨. 50개 이상의 다이얼을 한 번에 점검 가능."
+    },
+    {
+      "heading": "7-3. Signal & Warning Lights",
+      "content": "Color: 위험/경고에 Red 사용. Flash Rate: 3–10 Hz, 지속 시간 최소 0.05초. 최소 크기: 1°의 시각(visual angle). Intensity: 배경보다 최소 2배. 위치: 정상 시선으로부터 30° 이내. 지속 상태→고정 조명(steady), 비상→깜빡이는 조명(flashing)."
+    },
+    {
+      "heading": "8-1. Situation Awareness (SA)",
+      "content": "Level 1 Perception(지금 무슨 일?): 환경 내 요소의 상태 인식. Level 2 Comprehension(이것이 무엇을 의미?): 요소를 종합하여 중요성 이해. Level 3 Projection(다음에 무슨 일?): 미래 상태 예측. 적용: 항공 교통 관제, 조종석, 응급 의료, 군사 작전."
+    },
+    {
+      "heading": "8-2. Aircraft Displays & Roscoe's Principles",
+      "content": "Outside-In(Bird's Eye): 수평선 고정, 항공기 기호 이동. Inside-Out(Pilot's Eye): 항공기 고정, 수평선 이동. Roscoe's 4원칙: Pictorial Realism(공간적 표현), Compatible Motion(기준 프레임 일치), Integration(통합 디스플레이), Pursuit Presentation(목표+추종자 모두 움직임)."
+    },
+    {
+      "heading": "8-3. 2D vs 3D & HUD Dark Focus Problem",
+      "content": "3D 원근법 사용 시 회피 기동 결정이 3~6초 빠름(Natural Depth Cues). 단, 정면 충돌(head-on) 교통에서는 3D가 더 느림. HUD의 Dark Focus Trap: 눈이 ~1m에 초점 → micropsia(소시증) → 물체가 더 작고 더 멀리 보임 → 거리 판단 오류."
+    },
+    {
+      "heading": "8-4. Display Design Framework & Future Trends",
+      "content": "정밀 수치→Digital, 추세/변화율→Analog, 정상/비정상→Qualitative, 통합 상태→Object Display, 즉각 경고→Signal Light. 미래 트렌드: Adaptive Displays(작업 부하 기반 자동 조정), Eye-Tracking Integration, AI-Driven Optimization, Mixed Reality Cockpits, Neural Interface Displays."
+    }
+  ]
+}

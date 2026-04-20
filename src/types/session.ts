@@ -11,6 +11,9 @@ export interface Assignment {
 export type EventType =
   | 'session_start'
   | 'session_end'
+  | 'study_phase_start'
+  | 'study_phase_end'
+  | 'quiz_phase_start'
   | 'keypress'
   | 'mouse_move'
   | 'mouse_click'
