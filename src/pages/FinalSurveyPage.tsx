@@ -4,9 +4,9 @@ import { useSession } from '../context/SessionContext';
 import type { Condition } from '../types/session';
 
 const conditionLabels: Record<Condition, string> = {
-  c1: 'C1: 시간 기반 (타이머만)',
-  c2: 'C2: AI 경고 메시지',
-  c3: 'C3: 나무 성장 피드백',
+  c1: 'C1: 열품타 (수동 정지)',
+  c2: 'C2: Screen Monitoring (자동 정지)',
+  c3: 'C3: Screen Monitoring + Forest',
 };
 
 export default function FinalSurveyPage() {

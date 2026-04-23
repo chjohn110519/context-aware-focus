@@ -23,7 +23,13 @@ export type EventType =
   | 'idle_end'
   | 'feedback_triggered'
   | 'question_answered'
-  | 'question_shown';
+  | 'question_shown'
+  // Screen Monitoring events (C2/C3)
+  | 'screen_monitor_pause'     // 다른 앱/탭 전환 → 타이머 자동 정지
+  | 'screen_monitor_resume'    // 복귀 → 타이머 재개
+  // C1 manual pause
+  | 'timer_manual_pause'       // 열품타: 수동 정지
+  | 'timer_manual_resume';     // 열품타: 수동 재개
 
 export interface SessionEvent {
   timestamp: number;
@@ -37,6 +43,40 @@ export interface SurveyAnswer {
   value: number | string;
 }
 
+// ===== PDF-Generated Study Material =====
+export interface GeneratedStudySection {
+  heading: string;
+  content: string;         // md 형식 학습 내용
+}
+
+export interface GeneratedStudyMaterial {
+  title: string;
+  subtitle: string;
+  sections: GeneratedStudySection[];
+  terms: { term: string; definition: string }[];       // 용어 정리
+  analysis: string[];                                    // 비판적 분석
+  rawMarkdown: string;                                   // 전체 md 원문
+}
+
+// ===== PDF-Generated Quiz =====
+export interface GeneratedQuiz {
+  setId: QuestionSetId;
+  questions: {
+    id: string;
+    type: 'choice' | 'short_answer';
+    text: string;
+    options?: string[];
+    correctAnswer: string;
+  }[];
+}
+
+// ===== PDF Upload Data (3 PDFs → 3 Sets) =====
+export interface PdfSetData {
+  A: { study: GeneratedStudyMaterial; quiz: GeneratedQuiz } | null;
+  B: { study: GeneratedStudyMaterial; quiz: GeneratedQuiz } | null;
+  C: { study: GeneratedStudyMaterial; quiz: GeneratedQuiz } | null;
+}
+
 // ===== Session State =====
 export interface SessionState {
   participantId: number | null;
@@ -47,6 +87,8 @@ export interface SessionState {
   surveyResponses: Record<string, SurveyAnswer[]>;
   isSessionActive: boolean;
   completedSessions: string[];
+  // PDF-based generated data
+  pdfData: PdfSetData | null;
 }
 
 // ===== Session Actions =====
@@ -58,7 +100,8 @@ export type SessionAction =
   | { type: 'SAVE_SURVEY'; condition: string; answers: SurveyAnswer[] }
   | { type: 'NEXT_SESSION' }
   | { type: 'CLEAR_EVENT_LOG' }
-  | { type: 'RESTORE'; state: SessionState };
+  | { type: 'RESTORE'; state: SessionState }
+  | { type: 'SET_PDF_DATA'; pdfData: PdfSetData };
 
 // ===== Log Export =====
 export interface LogFileMeta {
@@ -76,6 +119,9 @@ export interface DerivedMetrics {
   disengagementCount: number;
   meanFocusSpanMs: number;
   completionRate: number;
+  // Screen monitoring specific
+  totalPausedMs: number;         // 총 일시정지 시간
+  pauseCount: number;            // 일시정지 횟수
 }
 
 export interface LogFile {

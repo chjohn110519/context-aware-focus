@@ -9,6 +9,7 @@ export const initialSessionState: SessionState = {
   surveyResponses: {},
   isSessionActive: false,
   completedSessions: [],
+  pdfData: null,
 };
 
 export function sessionReducer(state: SessionState, action: SessionAction): SessionState {
@@ -18,6 +19,8 @@ export function sessionReducer(state: SessionState, action: SessionAction): Sess
         ...initialSessionState,
         participantId: action.participantId,
         assignment: action.assignment,
+        // PDF 데이터 유지
+        pdfData: state.pdfData,
       };
 
     case 'START_SESSION':
@@ -67,6 +70,9 @@ export function sessionReducer(state: SessionState, action: SessionAction): Sess
 
     case 'RESTORE':
       return { ...action.state };
+
+    case 'SET_PDF_DATA':
+      return { ...state, pdfData: action.pdfData };
 
     default:
       return state;

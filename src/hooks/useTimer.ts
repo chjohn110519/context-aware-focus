@@ -14,21 +14,35 @@ export function useTimer({
 }: TimerOptions = {}) {
   const [remainingMs, setRemainingMs] = useState(durationMs);
   const [isRunning, setIsRunning] = useState(autoStart);
+  const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<number | null>(null);
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
 
   const start = useCallback(() => {
     setIsRunning(true);
+    setIsPaused(false);
   }, []);
 
   const stop = useCallback(() => {
     setIsRunning(false);
+    setIsPaused(false);
+  }, []);
+
+  const pause = useCallback(() => {
+    setIsRunning(false);
+    setIsPaused(true);
+  }, []);
+
+  const resume = useCallback(() => {
+    setIsRunning(true);
+    setIsPaused(false);
   }, []);
 
   const reset = useCallback(() => {
     setRemainingMs(durationMs);
     setIsRunning(false);
+    setIsPaused(false);
   }, [durationMs]);
 
   useEffect(() => {
@@ -67,8 +81,11 @@ export function useTimer({
     minutes,
     seconds,
     isRunning,
+    isPaused,
     start,
     stop,
+    pause,
+    resume,
     reset,
     isWarning: remainingMs < 60000 && remainingMs > 0,
   };

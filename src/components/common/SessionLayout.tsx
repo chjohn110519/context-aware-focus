@@ -7,11 +7,15 @@ interface SessionLayoutProps {
   condition: Condition;
   timerFormatted: string;
   timerWarning: boolean;
+  isPaused?: boolean;
   currentQuestion?: number;
   totalQuestions?: number;
   children: ReactNode;
-  rightPanel?: ReactNode;
+  /** C3: Forest widget (좌하단 고정) */
+  forestWidget?: ReactNode;
+  /** C2: FocusIndicator or C1: ManualPauseButton */
   topRight?: ReactNode;
+  /** C2: Warning banner */
   banner?: ReactNode;
 }
 
@@ -19,10 +23,11 @@ export default function SessionLayout({
   condition,
   timerFormatted,
   timerWarning,
+  isPaused = false,
   currentQuestion,
   totalQuestions,
   children,
-  rightPanel,
+  forestWidget,
   topRight,
   banner,
 }: SessionLayoutProps) {
@@ -35,13 +40,19 @@ export default function SessionLayout({
         style={{ borderColor: 'var(--border)', background: 'var(--bg-secondary)' }}>
         <div className="flex items-center gap-4">
           <Timer formatted={timerFormatted} isWarning={timerWarning} />
+          {isPaused && (
+            <span className="text-xs px-2 py-1 rounded-md font-semibold"
+              style={{ background: 'rgba(239, 68, 68, 0.2)', color: '#fca5a5' }}>
+              ⏸ 일시정지
+            </span>
+          )}
         </div>
         {topRight && <div>{topRight}</div>}
       </header>
 
       {/* Main Content */}
       <div className="flex flex-1" style={{ minHeight: 'calc(100vh - 82px)' }}>
-        {/* Question Area */}
+        {/* Content Area */}
         <main className="flex-1 flex flex-col items-center justify-center p-8 gap-6">
           {children}
           {currentQuestion !== undefined && totalQuestions !== undefined && (
@@ -50,15 +61,19 @@ export default function SessionLayout({
             </div>
           )}
         </main>
-
-        {/* Optional Right Panel (C3 tree) */}
-        {rightPanel && (
-          <aside className="w-80 border-l flex flex-col items-center justify-center p-6"
-            style={{ borderColor: 'var(--border)', background: 'var(--bg-secondary)' }}>
-            {rightPanel}
-          </aside>
-        )}
       </div>
+
+      {/* C3: Forest Widget (좌하단 고정) */}
+      {forestWidget && (
+        <div style={{
+          position: 'fixed',
+          bottom: 24,
+          left: 24,
+          zIndex: 50,
+        }}>
+          {forestWidget}
+        </div>
+      )}
     </div>
   );
 }

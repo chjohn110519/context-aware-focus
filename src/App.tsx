@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SessionProvider } from './context/SessionContext';
 import ExperimenterPage from './pages/ExperimenterPage';
+import PdfUploadPage from './pages/PdfUploadPage';
 import IntroPage from './pages/IntroPage';
 import SessionPage from './pages/SessionPage';
 import SessionCompletePage from './pages/SessionCompletePage';
@@ -14,6 +15,7 @@ export default function App() {
       <SessionProvider>
         <Routes>
           <Route path="/" element={<ExperimenterPage />} />
+          <Route path="/upload" element={<PdfUploadPage />} />
           <Route path="/session/intro" element={<IntroPage />} />
           <Route path="/session/complete/:condition" element={<SessionCompletePage />} />
           <Route path="/session/survey/:condition" element={<SurveyPage />} />

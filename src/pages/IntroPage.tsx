@@ -65,6 +65,21 @@ const conditionThemes: Record<Condition, {
   },
 };
 
+const conditionDescriptions: Record<Condition, { title: string; desc: string }> = {
+  c1: {
+    title: '⏱️ 열품타 모드',
+    desc: '타이머를 직접 정지/재개할 수 있습니다. 다른 앱으로 전환해도 타이머는 자동으로 멈추지 않습니다.',
+  },
+  c2: {
+    title: '🤖 Screen Monitoring 모드',
+    desc: '다른 탭이나 앱으로 전환하면 타이머가 자동으로 정지됩니다. 학습 화면으로 돌아오면 자동 재개됩니다.',
+  },
+  c3: {
+    title: '🌳 Screen Monitoring + Forest 모드',
+    desc: 'Screen Monitoring에 더해, 좌하단에 나무가 자랍니다. 집중하면 나무가 성장하고, 이탈하면 시듭니다.',
+  },
+};
+
 export default function IntroPage() {
   const { state } = useSession();
   const navigate = useNavigate();
@@ -83,6 +98,7 @@ export default function IntroPage() {
   const currentCondition = state.assignment.order[state.currentSessionIndex];
   const currentSet = state.assignment.sets[state.currentSessionIndex];
   const theme = conditionThemes[currentCondition];
+  const condDesc = conditionDescriptions[currentCondition];
 
   const handleStart = () => {
     navigate(`/session/${currentCondition}`);
@@ -104,9 +120,10 @@ export default function IntroPage() {
             <p>
               이 실험은 학습 집중 유도 인터페이스의 효과를 연구합니다.
               총 <strong style={{ color: theme.strongColor }}>3개의 세션</strong>을 진행하며,
-              각 세션은 <strong style={{ color: theme.strongColor }}>10분</strong>간 인간공학 문제를 풀게 됩니다.
+              각 세션은 <strong style={{ color: theme.strongColor }}>20분</strong>간 학습 후 퀴즈를 풀게 됩니다.
             </p>
 
+            {/* 현재 세션 정보 */}
             <div className="p-4 rounded-xl" style={{
               background: theme.infoBg,
               border: theme.infoBorder,
@@ -118,8 +135,21 @@ export default function IntroPage() {
                 <p>피험자 번호: <strong style={{ color: theme.strongColor }}>#{state.participantId}</strong></p>
                 <p>세션: <strong style={{ color: theme.strongColor }}>{state.currentSessionIndex + 1} / 3</strong></p>
                 <p>조건: <strong style={{ color: theme.strongColor }}>{getConditionLabel(currentCondition)}</strong></p>
-                <p>문제 세트: <strong style={{ color: theme.strongColor }}>{currentSet}</strong></p>
+                <p>학습 자료: <strong style={{ color: theme.strongColor }}>PDF {currentSet}</strong></p>
               </div>
+            </div>
+
+            {/* 조건 설명 */}
+            <div className="p-4 rounded-xl" style={{
+              background: theme.infoBg,
+              border: theme.infoBorder,
+            }}>
+              <p className="text-sm font-bold mb-1" style={{ color: theme.strongColor }}>
+                {condDesc.title}
+              </p>
+              <p className="text-xs" style={{ color: theme.textColor }}>
+                {condDesc.desc}
+              </p>
             </div>
 
             <div className="p-4 rounded-xl" style={{
@@ -128,8 +158,8 @@ export default function IntroPage() {
             }}>
               <p className="text-xs font-semibold mb-1" style={{ color: theme.warnTitle }}>⚠️ 주의사항</p>
               <ul className="text-xs space-y-1 list-disc list-inside" style={{ color: theme.warnText }}>
-                <li>시작 후 10분간 브라우저 창을 닫지 마세요.</li>
-                <li>다른 탭이나 창으로 전환하지 마세요.</li>
+                <li>시작 후 20분간 학습 자료를 읽고 퀴즈에 답해주세요.</li>
+                <li>학습이 완료되면 '퀴즈 시작' 버튼을 눌러주세요.</li>
                 <li>실험 진행 중 질문이 있으면 실험자에게 문의하세요.</li>
               </ul>
             </div>

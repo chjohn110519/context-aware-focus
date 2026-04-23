@@ -7,10 +7,16 @@ export function calculateDerivedMetrics(events: SessionEvent[], totalQuestions: 
   const focusSpans: number[] = [];
   let lastActiveStart: number | null = null;
 
+  // Screen monitoring pause tracking
+  let totalPausedMs = 0;
+  let pauseCount = 0;
+  let currentPauseStart: number | null = null;
+
   const sessionStart = events.find(e => e.type === 'session_start')?.timestamp ?? 0;
   const sessionEnd = events.find(e => e.type === 'session_end')?.timestamp ?? Date.now();
 
   for (const event of events) {
+    // Idle tracking
     if (event.type === 'idle_start' || event.type === 'window_blur') {
       disengagementCount++;
       currentIdleStart = event.timestamp;
@@ -25,6 +31,17 @@ export function calculateDerivedMetrics(events: SessionEvent[], totalQuestions: 
       }
       lastActiveStart = event.timestamp;
     }
+
+    // Screen monitor pause tracking
+    if (event.type === 'screen_monitor_pause' || event.type === 'timer_manual_pause') {
+      pauseCount++;
+      currentPauseStart = event.timestamp;
+    } else if (event.type === 'screen_monitor_resume' || event.type === 'timer_manual_resume') {
+      if (currentPauseStart !== null) {
+        totalPausedMs += event.timestamp - currentPauseStart;
+        currentPauseStart = null;
+      }
+    }
   }
 
   // If still idle at session end
@@ -32,11 +49,15 @@ export function calculateDerivedMetrics(events: SessionEvent[], totalQuestions: 
     totalIdleMs += sessionEnd - currentIdleStart;
   }
 
+  if (currentPauseStart !== null) {
+    totalPausedMs += sessionEnd - currentPauseStart;
+  }
+
   if (lastActiveStart !== null) {
     focusSpans.push(sessionEnd - lastActiveStart);
   }
 
-  const totalFocusTimeMs = (sessionEnd - sessionStart) - totalIdleMs;
+  const totalFocusTimeMs = (sessionEnd - sessionStart) - totalIdleMs - totalPausedMs;
   const meanFocusSpanMs = focusSpans.length > 0
     ? focusSpans.reduce((a, b) => a + b, 0) / focusSpans.length
     : totalFocusTimeMs;
@@ -49,6 +70,8 @@ export function calculateDerivedMetrics(events: SessionEvent[], totalQuestions: 
     disengagementCount,
     meanFocusSpanMs: Math.max(0, meanFocusSpanMs),
     completionRate: Math.min(1, completionRate),
+    totalPausedMs,
+    pauseCount,
   };
 }
 

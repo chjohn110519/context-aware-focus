@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSession } from '../context/SessionContext';
 import { getAssignment, getConditionLabel } from '../utils/assignment';
+import { MAX_PARTICIPANTS } from '../utils/constants';
 
 export default function ExperimenterPage() {
   const [participantId, setParticipantId] = useState<string>('');
@@ -9,13 +10,13 @@ export default function ExperimenterPage() {
   const navigate = useNavigate();
 
   const id = Number(participantId);
-  const isValid = id >= 1 && id <= 12 && Number.isInteger(id);
+  const isValid = id >= 1 && id <= MAX_PARTICIPANTS && Number.isInteger(id);
   const assignment = isValid ? getAssignment(id) : null;
 
   const handleStart = () => {
     if (!isValid || !assignment) return;
     dispatch({ type: 'SET_PARTICIPANT', participantId: id, assignment });
-    navigate('/session/intro');
+    navigate('/upload');
   };
 
   return (
@@ -35,13 +36,14 @@ export default function ExperimenterPage() {
           backdropFilter: 'blur(16px)',
           border: '1px solid rgba(129, 140, 248, 0.2)',
         }}>
+          {/* 피험자 번호 */}
           <label className="block text-indigo-200 text-sm font-semibold mb-2">
             피험자 번호
           </label>
           <input
             type="number"
             min="1"
-            max="12"
+            max={MAX_PARTICIPANTS}
             value={participantId}
             onChange={(e) => setParticipantId(e.target.value)}
             className="w-full p-4 rounded-xl text-2xl text-center font-bold outline-none transition-all"
@@ -50,11 +52,12 @@ export default function ExperimenterPage() {
               border: '2px solid rgba(129, 140, 248, 0.3)',
               color: '#e0e7ff',
             }}
-            placeholder="1 ~ 12"
+            placeholder={`1 ~ ${MAX_PARTICIPANTS}`}
             onFocus={(e) => { e.target.style.borderColor = '#818cf8'; }}
             onBlur={(e) => { e.target.style.borderColor = 'rgba(129, 140, 248, 0.3)'; }}
           />
 
+          {/* 배정 정보 */}
           {assignment && (
             <div className="mt-6 p-4 rounded-xl slide-down" style={{
               background: 'rgba(15, 23, 42, 0.6)',
@@ -72,7 +75,7 @@ export default function ExperimenterPage() {
                     </span>
                     <span className="px-2 py-0.5 rounded text-xs font-bold"
                       style={{ background: 'rgba(129, 140, 248, 0.2)', color: '#a5b4fc' }}>
-                      세트 {assignment.sets[idx]}
+                      PDF {assignment.sets[idx]}
                     </span>
                   </div>
                 ))}
@@ -95,7 +98,7 @@ export default function ExperimenterPage() {
             onMouseEnter={(e) => { if (isValid) (e.target as HTMLElement).style.transform = 'translateY(-2px)'; }}
             onMouseLeave={(e) => { (e.target as HTMLElement).style.transform = 'translateY(0)'; }}
           >
-            실험 시작
+            PDF 업로드로 이동 →
           </button>
         </div>
 
