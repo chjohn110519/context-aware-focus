@@ -53,7 +53,7 @@ export default function SessionPage() {
 
   // Idle detection (C2 경고에 사용)
   const { isIdle } = useIdleDetector({
-    enabled: cond === 'c2',
+    enabled: cond === 'c2' && phase === 'study',
     lastKeyTime,
     lastMouseTime,
     lastBlurTime,
@@ -169,7 +169,7 @@ export default function SessionPage() {
 
   // C3: Tree health update
   useEffect(() => {
-    if (cond !== 'c3') return;
+    if (cond !== 'c3' || phase !== 'study') return;
     treeIntervalRef.current = window.setInterval(() => {
       setTreeHealth(prev => {
         // Screen Monitor 이탈 OR idle일 때 시들기
@@ -361,7 +361,7 @@ export default function SessionPage() {
   return (
     <>
       {/* C2/C3: Screen Monitor Pause Overlay */}
-      {(cond === 'c2' || cond === 'c3') && (
+      {(cond === 'c2' || cond === 'c3') && phase === 'study' && (
         <PauseOverlay
           visible={screenMonitor.isDisengaged}
           pausedMs={screenMonitor.pausedDurationMs}
@@ -373,22 +373,22 @@ export default function SessionPage() {
         condition={cond}
         timerFormatted={phase === 'study' ? timer.formatted : '퀴즈'}
         timerWarning={phase === 'study' && timer.isWarning}
-        isPaused={isPaused}
+        isPaused={isPaused && phase === 'study'}
         currentQuestion={phase === 'quiz' ? Math.min(currentQuestionIdx + 1, questions.length) : undefined}
         totalQuestions={phase === 'quiz' ? questions.length : undefined}
-        banner={cond === 'c2' ? <WarningBanner visible={warningVisible} /> : undefined}
+        banner={cond === 'c2' && phase === 'study' ? <WarningBanner visible={warningVisible} /> : undefined}
         topRight={
-          cond === 'c1' ? (
+          cond === 'c1' && phase === 'study' ? (
             <ManualPauseButton
               isPaused={timer.isPaused}
               onPause={handleManualPause}
               onResume={handleManualResume}
             />
-          ) : cond === 'c2' ? (
+          ) : cond === 'c2' && phase === 'study' ? (
             <FocusIndicator status={getFocusStatus()} />
           ) : undefined
         }
-        forestWidget={cond === 'c3' ? <ForestWidget health={treeHealth} /> : undefined}
+        forestWidget={cond === 'c3' && phase === 'study' ? <ForestWidget health={treeHealth} /> : undefined}
       >
         {phase === 'study' ? renderStudyPhase() : renderQuizPhase()}
       </SessionLayout>
