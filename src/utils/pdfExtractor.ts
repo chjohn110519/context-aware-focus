@@ -1,7 +1,8 @@
 import * as pdfjsLib from 'pdfjs-dist';
+import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
-// PDF.js worker 설정 — CDN에서 로드
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+// PDF.js worker 설정 — Vite 번들링 방식
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 /**
  * PDF File → 전체 텍스트 추출
