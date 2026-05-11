@@ -23,21 +23,20 @@ export default function ExperimenterPage() {
     <div className="experimenter-bg">
       <div className="w-full max-w-lg mx-auto p-8">
         <div className="text-center mb-10 fade-in">
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold mb-2" style={{ color: '#111111' }}>
             🧪 Context-Aware Focus
           </h1>
-          <p className="text-indigo-300 text-sm">
+          <p className="text-sm" style={{ color: '#555555' }}>
             IMEN 343 Term Project — 실험 관리 시스템
           </p>
         </div>
 
         <div className="card fade-in" style={{
-          background: 'rgba(30, 27, 75, 0.6)',
-          backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(129, 140, 248, 0.2)',
+          background: '#ffffff',
+          border: '1px solid #cccccc',
         }}>
           {/* 피험자 번호 */}
-          <label className="block text-indigo-200 text-sm font-semibold mb-2">
+          <label className="block text-sm font-semibold mb-2" style={{ color: '#111111' }}>
             피험자 번호
           </label>
           <input
@@ -48,33 +47,33 @@ export default function ExperimenterPage() {
             onChange={(e) => setParticipantId(e.target.value)}
             className="w-full p-4 rounded-xl text-2xl text-center font-bold outline-none transition-all"
             style={{
-              background: 'rgba(15, 23, 42, 0.8)',
-              border: '2px solid rgba(129, 140, 248, 0.3)',
-              color: '#e0e7ff',
+              background: '#f5f5f5',
+              border: '2px solid #cccccc',
+              color: '#111111',
             }}
             placeholder={`1 ~ ${MAX_PARTICIPANTS}`}
-            onFocus={(e) => { e.target.style.borderColor = '#818cf8'; }}
-            onBlur={(e) => { e.target.style.borderColor = 'rgba(129, 140, 248, 0.3)'; }}
+            onFocus={(e) => { e.target.style.borderColor = '#555555'; }}
+            onBlur={(e) => { e.target.style.borderColor = '#cccccc'; }}
           />
 
           {/* 배정 정보 */}
           {assignment && (
             <div className="mt-6 p-4 rounded-xl slide-down" style={{
-              background: 'rgba(15, 23, 42, 0.6)',
-              border: '1px solid rgba(129, 140, 248, 0.15)',
+              background: '#f5f5f5',
+              border: '1px solid #cccccc',
             }}>
-              <h3 className="text-indigo-300 text-xs font-semibold mb-3 uppercase tracking-wider">
+              <h3 className="text-xs font-semibold mb-3 uppercase tracking-wider" style={{ color: '#555555' }}>
                 배정 정보
               </h3>
               <div className="space-y-2">
                 {assignment.order.map((cond, idx) => (
                   <div key={idx} className="flex items-center justify-between text-sm">
-                    <span className="text-indigo-400">세션 {idx + 1}</span>
-                    <span className="text-white font-medium">
+                    <span style={{ color: '#555555' }}>세션 {idx + 1}</span>
+                    <span className="font-medium" style={{ color: '#111111' }}>
                       {getConditionLabel(cond)}
                     </span>
                     <span className="px-2 py-0.5 rounded text-xs font-bold"
-                      style={{ background: 'rgba(129, 140, 248, 0.2)', color: '#a5b4fc' }}>
+                      style={{ background: '#eeeeee', color: '#333333', border: '1px solid #cccccc' }}>
                       PDF {assignment.sets[idx]}
                     </span>
                   </div>
@@ -88,10 +87,8 @@ export default function ExperimenterPage() {
             disabled={!isValid}
             onClick={handleStart}
             style={{
-              background: isValid
-                ? 'linear-gradient(135deg, #6366f1, #8b5cf6)'
-                : 'rgba(100, 100, 100, 0.3)',
-              color: isValid ? '#fff' : '#666',
+              background: isValid ? '#111111' : '#dddddd',
+              color: isValid ? '#ffffff' : '#999999',
               cursor: isValid ? 'pointer' : 'not-allowed',
               border: 'none',
             }}
@@ -102,7 +99,7 @@ export default function ExperimenterPage() {
           </button>
         </div>
 
-        <p className="text-center text-indigo-400/50 text-xs mt-6">
+        <p className="text-center text-xs mt-6" style={{ color: '#aaaaaa' }}>
           Team #8 · POSTECH IMEN 343
         </p>
       </div>

@@ -5,7 +5,7 @@ export const SESSION_DURATION_MS = 1_200_000; // 20분
 export const MOUSE_THROTTLE_MS = 500;       // 마우스 이벤트 throttle
 
 // ===== Participants =====
-export const MAX_PARTICIPANTS = 18;         // 18명 실험
+export const MAX_PARTICIPANTS = 6;          // 6명 실험
 
 // ===== Screen Monitoring (C2/C3) =====
 export const SCREEN_MONITOR_DEBOUNCE_MS = 500; // blur→pause 전환 debounce
