@@ -1,107 +1,204 @@
 """
-이진분류 모델 학습 스크립트 (공부중 / 공부중아님)
-사용법:
-  python train_model.py
-
-데이터 폴더 구조 (scripts/ 기준 상위):
-  data/
-    not_studying/   (label 0)
-    studying/       (label 1)
-
-출력:
-  ../public/model/model.json  (TF.js 형식)
-  ../public/model/group1-shard1of1.bin
+이진분류 모델 학습 + TF.js 변환 (tensorflowjs 패키지 불필요)
+사용법: python train_model.py
 """
-
-import os
-import sys
+import os, sys, json, shutil, tempfile
+import numpy as np
 
 try:
     import tensorflow as tf
-    import tensorflowjs as tfjs
 except ImportError:
-    print("필요 패키지 설치: pip install -r requirements.txt")
+    print("pip install tensorflow==2.15.0")
     sys.exit(1)
 
-# ─── 하이퍼파라미터 ───────────────────────────────────────────────
+# ─── 설정 ──────────────────────────────────────────────────────────
 IMG_SIZE   = 224
-BATCH_SIZE = 16
-EPOCHS     = 15
-DATA_DIR   = os.path.join(os.path.dirname(__file__), "..", "data")
-OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "public", "model")
-
-# ─── 데이터 로드 ─────────────────────────────────────────────────
-print("데이터 로드 중...")
-
-train_ds = tf.keras.utils.image_dataset_from_directory(
-    DATA_DIR,
-    validation_split=0.2,
-    subset="training",
-    seed=42,
-    image_size=(IMG_SIZE, IMG_SIZE),
-    batch_size=BATCH_SIZE,
-    label_mode="binary",
-)
-
-val_ds = tf.keras.utils.image_dataset_from_directory(
-    DATA_DIR,
-    validation_split=0.2,
-    subset="validation",
-    seed=42,
-    image_size=(IMG_SIZE, IMG_SIZE),
-    batch_size=BATCH_SIZE,
-    label_mode="binary",
-)
-
-print(f"클래스: {train_ds.class_names}")  # ['not_studying', 'studying']
-
-# 픽셀 정규화 (0~255 → 0~1)
-normalize = tf.keras.layers.Rescaling(1.0 / 255)
-train_ds = train_ds.map(lambda x, y: (normalize(x), y), num_parallel_calls=tf.data.AUTOTUNE)
-val_ds   = val_ds.map(lambda x, y: (normalize(x), y), num_parallel_calls=tf.data.AUTOTUNE)
-
-train_ds = train_ds.cache().shuffle(1000).prefetch(tf.data.AUTOTUNE)
-val_ds   = val_ds.cache().prefetch(tf.data.AUTOTUNE)
-
-# ─── 모델 구성 ───────────────────────────────────────────────────
-base = tf.keras.applications.MobileNetV2(
-    input_shape=(IMG_SIZE, IMG_SIZE, 3),
-    include_top=False,
-    weights="imagenet",
-)
-base.trainable = False  # ImageNet 가중치 동결
-
-model = tf.keras.Sequential([
-    base,
-    tf.keras.layers.GlobalAveragePooling2D(),
-    tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Dense(1, activation="sigmoid"),
-])
-
-model.compile(
-    optimizer=tf.keras.optimizers.Adam(1e-3),
-    loss="binary_crossentropy",
-    metrics=["accuracy"],
-)
-
-model.summary()
-
-# ─── 학습 ────────────────────────────────────────────────────────
-print("\n학습 시작...")
-history = model.fit(
-    train_ds,
-    validation_data=val_ds,
-    epochs=EPOCHS,
-    callbacks=[
-        tf.keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True),
-    ],
-)
-
-val_acc = max(history.history["val_accuracy"])
-print(f"\n최고 Validation Accuracy: {val_acc:.3f}")
-
-# ─── TF.js 형식으로 저장 ─────────────────────────────────────────
+BATCH_SIZE = 4
+EPOCHS     = 50
+ROOT       = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+DATA_DIR   = os.path.join(ROOT, "data")
+CKPT_DIR   = os.path.join(ROOT, "checkpoints")  # used only for reference; actual ckpt in temp dir
+OUTPUT_DIR = os.path.join(ROOT, "public", "model")
+os.makedirs(CKPT_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-tfjs.converters.save_keras_model(model, OUTPUT_DIR)
-print(f"\n모델 저장 완료: {OUTPUT_DIR}/")
-print("  → 앱을 실행하면 /model/model.json 에서 자동 로드됩니다.")
+
+# ─── 데이터 확인 ───────────────────────────────────────────────────
+for cls in ["studying", "not_studying"]:
+    imgs = [f for f in os.listdir(os.path.join(DATA_DIR, cls))
+            if f.lower().endswith((".png", ".jpg", ".jpeg"))]
+    print(f"  {cls}: {len(imgs)}장")
+
+# TF file I/O can't handle non-ASCII paths or filenames; copy with ASCII names to temp dir
+_tmp_root = tempfile.mkdtemp(prefix="ml_train_")
+DATA_DIR_TF = os.path.join(_tmp_root, "data")
+for cls in ["studying", "not_studying"]:
+    dst_cls = os.path.join(DATA_DIR_TF, cls)
+    os.makedirs(dst_cls, exist_ok=True)
+    src_cls = os.path.join(DATA_DIR, cls)
+    idx = 0
+    for fname in os.listdir(src_cls):
+        if fname.lower().endswith((".png", ".jpg", ".jpeg")):
+            ext = os.path.splitext(fname)[1].lower()
+            shutil.copy2(os.path.join(src_cls, fname),
+                         os.path.join(dst_cls, f"img_{idx:04d}{ext}"))
+            idx += 1
+CKPT_DIR_TF = os.path.join(_tmp_root, "checkpoints")
+os.makedirs(CKPT_DIR_TF, exist_ok=True)
+print(f"  (임시 경로: {DATA_DIR_TF})")
+
+# ─── Data Augmentation ─────────────────────────────────────────────
+augmentation = tf.keras.Sequential([
+    tf.keras.layers.RandomFlip("horizontal"),
+    tf.keras.layers.RandomRotation(0.1),
+    tf.keras.layers.RandomZoom(0.15),
+    tf.keras.layers.RandomBrightness(0.2),
+    tf.keras.layers.RandomContrast(0.2),
+], name="augmentation")
+
+# ─── 데이터셋 로드 ─────────────────────────────────────────────────
+print("\n데이터 로드 중...")
+full_ds = tf.keras.utils.image_dataset_from_directory(
+    DATA_DIR_TF,
+    image_size=(IMG_SIZE, IMG_SIZE),
+    batch_size=BATCH_SIZE,
+    label_mode="binary",
+    shuffle=True, seed=42,
+)
+class_names = full_ds.class_names
+print(f"클래스: {class_names}")   # ['not_studying'=0, 'studying'=1]
+
+normalize = tf.keras.layers.Rescaling(1.0 / 255)
+train_ds = full_ds.map(
+    lambda x, y: (augmentation(normalize(x), training=True), y),
+    num_parallel_calls=tf.data.AUTOTUNE,
+).cache().repeat().prefetch(tf.data.AUTOTUNE)
+val_ds = full_ds.map(
+    lambda x, y: (normalize(x), y),
+    num_parallel_calls=tf.data.AUTOTUNE,
+).prefetch(tf.data.AUTOTUNE)
+
+total = sum(
+    len([f for f in os.listdir(os.path.join(DATA_DIR_TF, c))
+         if f.lower().endswith((".png", ".jpg", ".jpeg"))])
+    for c in class_names
+)
+steps_per_epoch = max(1, total // BATCH_SIZE)
+
+# ─── 모델 구성 ─────────────────────────────────────────────────────
+base = tf.keras.applications.MobileNetV2(
+    input_shape=(IMG_SIZE, IMG_SIZE, 3), include_top=False, weights="imagenet"
+)
+base.trainable = False
+
+inputs  = tf.keras.Input(shape=(IMG_SIZE, IMG_SIZE, 3))
+x       = base(inputs, training=False)
+x       = tf.keras.layers.GlobalAveragePooling2D()(x)
+x       = tf.keras.layers.Dropout(0.3)(x)
+outputs = tf.keras.layers.Dense(1, activation="sigmoid")(x)
+model   = tf.keras.Model(inputs, outputs)
+
+model.compile(optimizer=tf.keras.optimizers.Adam(1e-3),
+              loss="binary_crossentropy", metrics=["accuracy"])
+
+# ─── 1단계: top layer 학습 ─────────────────────────────────────────
+ckpt_path = os.path.join(CKPT_DIR_TF, "best_model.keras")
+print("\n[1단계] Top layer 학습...")
+model.fit(
+    train_ds,
+    steps_per_epoch=steps_per_epoch,
+    epochs=EPOCHS,
+    validation_data=val_ds,
+    callbacks=[
+        tf.keras.callbacks.ModelCheckpoint(
+            ckpt_path, monitor="loss", save_best_only=True, verbose=0),
+        tf.keras.callbacks.ReduceLROnPlateau(
+            monitor="loss", factor=0.5, patience=5, verbose=0),
+    ],
+    verbose=1,
+)
+
+# ─── 2단계: fine-tuning ────────────────────────────────────────────
+print("\n[2단계] Fine-tuning...")
+base.trainable = True
+for layer in base.layers[:-30]:
+    layer.trainable = False
+model.compile(optimizer=tf.keras.optimizers.Adam(1e-5),
+              loss="binary_crossentropy", metrics=["accuracy"])
+model.fit(
+    train_ds,
+    steps_per_epoch=steps_per_epoch,
+    epochs=20,
+    validation_data=val_ds,
+    callbacks=[
+        tf.keras.callbacks.ModelCheckpoint(
+            ckpt_path, monitor="loss", save_best_only=True, verbose=0),
+        tf.keras.callbacks.EarlyStopping(
+            monitor="loss", patience=10, restore_best_weights=True),
+    ],
+    verbose=1,
+)
+
+# ─── 최고 체크포인트 로드 ─────────────────────────────────────────
+print("\n최고 체크포인트 로드 중...")
+best = tf.keras.models.load_model(ckpt_path)
+
+# ─── TF.js 변환 (tensorflowjs 패키지 불필요) ─────────────────────
+def save_as_tfjs(model, output_dir):
+    """
+    Keras 모델을 TF.js LayersModel 형식으로 직접 변환.
+    - output_dir/model.json   : 모델 구조 + 가중치 매니페스트
+    - output_dir/group1-shard1of1.bin : float32 가중치 바이너리
+    """
+    os.makedirs(output_dir, exist_ok=True)
+
+    # 가중치 수집
+    weight_specs   = []
+    weights_bytes  = bytearray()
+
+    for var in model.weights:
+        arr   = var.numpy().astype(np.float32)
+        raw   = arr.tobytes()
+        weights_bytes.extend(raw)
+        weight_specs.append({
+            "name":  var.name,
+            "shape": list(arr.shape),
+            "dtype": "float32",
+        })
+
+    # .bin 파일 저장
+    shard = "group1-shard1of1.bin"
+    with open(os.path.join(output_dir, shard), "wb") as f:
+        f.write(bytes(weights_bytes))
+
+    # model.json 생성
+    topology = json.loads(model.to_json())
+    model_json = {
+        "modelTopology": topology,
+        "weightsManifest": [{
+            "paths": [shard],
+            "weights": weight_specs,
+        }],
+        "format": "layers-model",
+        "generatedBy": tf.__version__,
+        "convertedBy": "custom_converter_v1",
+        "signature": None,
+    }
+    with open(os.path.join(output_dir, "model.json"), "w") as f:
+        json.dump(model_json, f, indent=2)
+
+    mb = len(weights_bytes) / 1024 / 1024
+    print(f"  가중치: {len(weight_specs)}개  ({mb:.1f} MB)")
+    print(f"  저장: {output_dir}/model.json + {shard}")
+
+print("\nTF.js 변환 중...")
+TF_OUTPUT_TMP = os.path.join(_tmp_root, "tfjs_output")
+save_as_tfjs(best, TF_OUTPUT_TMP)
+
+# Copy output files to final destination (OUTPUT_DIR may contain non-ASCII chars)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+for fname in os.listdir(TF_OUTPUT_TMP):
+    shutil.copy2(os.path.join(TF_OUTPUT_TMP, fname), os.path.join(OUTPUT_DIR, fname))
+    print(f"  복사: {fname} → {OUTPUT_DIR}")
+
+shutil.rmtree(_tmp_root, ignore_errors=True)
+print("\n✅ 완료! npm run dev 후 C2/C3 세션에서 자동 로드됩니다.")

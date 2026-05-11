@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSession } from '../context/SessionContext';
-import { useActivityTracker } from '../hooks/useActivityTracker';
-import { useIdleDetector } from '../hooks/useIdleDetector';
 import { useTimer } from '../hooks/useTimer';
 import { useScreenMonitor } from '../hooks/useScreenMonitor';
 import { useMLScreenClassifier } from '../hooks/useMLScreenClassifier';
@@ -49,17 +47,6 @@ export default function SessionPage() {
   // Quiz state
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   const questionStartTime = useRef(Date.now());
-
-  // Activity tracking
-  const { lastKeyTime, lastMouseTime, lastBlurTime } = useActivityTracker();
-
-  // Idle detection (C2 경고에 사용)
-  const { isIdle } = useIdleDetector({
-    enabled: cond === 'c2' && phase === 'study',
-    lastKeyTime,
-    lastMouseTime,
-    lastBlurTime,
-  });
 
   // C2: Warning state
   const [warningVisible, setWarningVisible] = useState(false);
@@ -181,10 +168,10 @@ export default function SessionPage() {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // C2: Warning logic
+  // C2: Warning logic (ML 판단 기반)
   useEffect(() => {
     if (cond !== 'c2') return;
-    if (isIdle) {
+    if (mlDisengaged) {
       const now = Date.now();
       if (now - lastWarningTime.current > WARNING_COOLDOWN_MS) {
         setWarningVisible(true);
@@ -195,7 +182,7 @@ export default function SessionPage() {
         }, WARNING_DISPLAY_MS);
       }
     }
-  }, [isIdle, cond, logEvent, phase]);
+  }, [mlDisengaged, cond, logEvent, phase]);
 
   // C3: Tree health update
   useEffect(() => {
@@ -251,13 +238,11 @@ export default function SessionPage() {
     }
   }, [currentQuestionIdx, questions, logEvent, handleSessionEnd]);
 
-  // C2 focus status
+  // C2 focus status (ML 기반)
   const getFocusStatus = (): 'good' | 'warn' | 'bad' => {
-    if (screenMonitor.isDisengaged) return 'bad';
-    if (!isIdle) return 'good';
-    const idleDuration = Date.now() - Math.max(lastKeyTime.current, lastMouseTime.current);
-    if (idleDuration > 20000) return 'bad';
-    return 'warn';
+    if (screenMonitor.isDisengaged || mlDisengaged) return 'bad';
+    if (!mlClassifier.modelLoaded || !mlClassifier.captureActive) return 'warn';
+    return mlClassifier.confidence > 0.7 ? 'good' : 'warn';
   };
 
   const currentQuestion = questions[currentQuestionIdx];
