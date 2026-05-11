@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSession } from '../context/SessionContext';
 import { useTimer } from '../hooks/useTimer';
-import { useScreenMonitor } from '../hooks/useScreenMonitor';
 import { useMLScreenClassifier } from '../hooks/useMLScreenClassifier';
 import { exportSessionLog } from '../utils/logExporter';
 import {
@@ -94,13 +93,6 @@ export default function SessionPage() {
   });
 
   // ==========================================
-  // Screen Monitoring (C2/C3 전용)
-  // ==========================================
-  const screenMonitor = useScreenMonitor({
-    enabled: (cond === 'c2' || cond === 'c3') && phase === 'study',
-  });
-
-  // ==========================================
   // ML Screen Classifier (C2/C3 전용)
   // ==========================================
   const mlClassifier = useMLScreenClassifier({
@@ -108,23 +100,45 @@ export default function SessionPage() {
     intervalMs: ML_CLASSIFY_INTERVAL_MS,
   });
 
-  // 통합 이탈 판단: 창 전환 OR ML "공부중아님"
+  // ML "공부중아님" 판단 (모델 로드 + 캡처 활성화 + not studying)
   const mlDisengaged = mlClassifier.modelLoaded && mlClassifier.captureActive && !mlClassifier.isStudying;
-  const isAnyDisengaged = screenMonitor.isDisengaged || mlDisengaged;
 
-  // 이탈 판단에 따른 타이머 제어 (disengagement가 원인인 pause만 자동 resume)
+  // ML 이탈 시간/횟수 추적 (PauseOverlay 표시용)
+  const [mlPausedMs, setMlPausedMs] = useState(0);
+  const [mlPauseCount, setMlPauseCount] = useState(0);
+  const mlPauseStartRef = useRef<number | null>(null);
+  const mlPauseIntervalRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (mlDisengaged) {
+      if (mlPauseStartRef.current === null) {
+        mlPauseStartRef.current = Date.now();
+        setMlPauseCount(prev => prev + 1);
+        mlPauseIntervalRef.current = window.setInterval(() => {
+          setMlPausedMs(Date.now() - mlPauseStartRef.current!);
+        }, 100);
+      }
+    } else {
+      if (mlPauseStartRef.current !== null) {
+        mlPauseStartRef.current = null;
+        setMlPausedMs(0);
+        if (mlPauseIntervalRef.current) {
+          clearInterval(mlPauseIntervalRef.current);
+          mlPauseIntervalRef.current = null;
+        }
+      }
+    }
+  }, [mlDisengaged]);
+
+  // ML 이탈 판단에 따른 타이머 제어 (ML이 원인인 pause만 자동 resume)
   const pausedByDisengagementRef = useRef(false);
   useEffect(() => {
     if (cond !== 'c2' && cond !== 'c3') return;
     if (phase !== 'study') return;
-    if (isAnyDisengaged) {
+    if (mlDisengaged) {
       if (timer.isRunning) {
         timer.pause();
         pausedByDisengagementRef.current = true;
-        logEvent('feedback_triggered', {
-          type: mlDisengaged ? 'ml_not_studying' : 'screen_disengage',
-          phase,
-        });
+        logEvent('feedback_triggered', { type: 'ml_not_studying', phase });
       }
     } else {
       if (pausedByDisengagementRef.current && timer.isPaused) {
@@ -132,7 +146,7 @@ export default function SessionPage() {
         pausedByDisengagementRef.current = false;
       }
     }
-  }, [isAnyDisengaged]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [mlDisengaged]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ==========================================
   // C1: Manual Pause Handlers (열품타)
@@ -165,6 +179,7 @@ export default function SessionPage() {
       timer.stop();
       if (warningTimeoutRef.current) clearTimeout(warningTimeoutRef.current);
       if (treeIntervalRef.current) clearInterval(treeIntervalRef.current);
+      if (mlPauseIntervalRef.current) clearInterval(mlPauseIntervalRef.current);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -189,8 +204,7 @@ export default function SessionPage() {
     if (cond !== 'c3' || phase !== 'study') return;
     treeIntervalRef.current = window.setInterval(() => {
       setTreeHealth(prev => {
-        // Screen Monitor 이탈 OR idle일 때 시들기
-        const shouldWilt = isAnyDisengaged;
+        const shouldWilt = mlDisengaged;
         if (shouldWilt) {
           const newHealth = Math.max(TREE_MIN_HEALTH, prev - TREE_WILT_RATE);
           if (prev > TREE_MIN_HEALTH + TREE_WILT_RATE && newHealth <= prev - TREE_WILT_RATE) {
@@ -205,7 +219,7 @@ export default function SessionPage() {
     return () => {
       if (treeIntervalRef.current) clearInterval(treeIntervalRef.current);
     };
-  }, [cond, isAnyDisengaged, logEvent, phase]);
+  }, [cond, mlDisengaged, logEvent, phase]);
 
   // Handle scroll tracking during study phase
   const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
@@ -240,7 +254,7 @@ export default function SessionPage() {
 
   // C2 focus status (ML 기반)
   const getFocusStatus = (): 'good' | 'warn' | 'bad' => {
-    if (screenMonitor.isDisengaged || mlDisengaged) return 'bad';
+    if (mlDisengaged) return 'bad';
     if (!mlClassifier.modelLoaded || !mlClassifier.captureActive) return 'warn';
     return mlClassifier.confidence > 0.7 ? 'good' : 'warn';
   };
@@ -371,16 +385,16 @@ export default function SessionPage() {
   );
 
   // Compute isPaused state
-  const isPaused = timer.isPaused || isAnyDisengaged;
+  const isPaused = timer.isPaused || mlDisengaged;
 
   return (
     <>
-      {/* C2/C3: Screen Monitor / ML Pause Overlay */}
+      {/* C2/C3: ML Pause Overlay */}
       {(cond === 'c2' || cond === 'c3') && phase === 'study' && (
         <PauseOverlay
-          visible={isAnyDisengaged}
-          pausedMs={screenMonitor.pausedDurationMs}
-          pauseCount={screenMonitor.pauseCount}
+          visible={mlDisengaged}
+          pausedMs={mlPausedMs}
+          pauseCount={mlPauseCount}
         />
       )}
 
