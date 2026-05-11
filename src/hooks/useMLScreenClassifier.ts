@@ -40,8 +40,8 @@ export function useMLScreenClassifier({
         modelRef.current = model;
         setModelLoaded(true);
       })
-      .catch(() => {
-        // 모델 파일 없으면 조용히 비활성화 (기존 화면감지만 동작)
+      .catch((err) => {
+        console.error('[ML] 모델 로드 실패:', err);
         setModelLoaded(false);
       });
 

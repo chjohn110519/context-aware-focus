@@ -399,7 +399,7 @@ export default function SessionPage() {
       )}
 
       {/* ML 화면 공유 요청 배너 */}
-      {(cond === 'c2' || cond === 'c3') && phase === 'study' && mlClassifier.modelLoaded && !mlClassifier.captureActive && (
+      {(cond === 'c2' || cond === 'c3') && phase === 'study' && !mlClassifier.captureActive && (
         <div style={{
           position: 'fixed', bottom: 88, right: 24, zIndex: 60,
           background: '#ffffff', border: '1px solid #cccccc',
