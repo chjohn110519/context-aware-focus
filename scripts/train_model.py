@@ -1,5 +1,5 @@
 """
-이진분류 모델 학습 + TF.js 변환 (tensorflowjs 패키지 불필요)
+이진분류 모델 학습 + TF.js 변환 (Keras 2 포맷, TF.js 호환)
 사용법: python train_model.py
 """
 import os, sys, json, shutil, tempfile
@@ -7,8 +7,9 @@ import numpy as np
 
 try:
     import tensorflow as tf
-except ImportError:
-    print("pip install tensorflow==2.15.0")
+    import tf_keras
+except ImportError as e:
+    print(f"pip install tensorflow==2.15.0 tf_keras  ({e})")
     sys.exit(1)
 
 # ─── 설정 ──────────────────────────────────────────────────────────
@@ -17,7 +18,8 @@ BATCH_SIZE = 4
 EPOCHS     = 50
 ROOT       = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 DATA_DIR   = os.path.join(ROOT, "data")
-CKPT_DIR   = os.path.join(ROOT, "checkpoints")  # used only for reference; actual ckpt in temp dir
+# 체크포인트는 ASCII 경로에 영구 보존
+CKPT_DIR   = os.path.join(os.path.expanduser("~"), "AppData", "Local", "ml_ckpts")
 OUTPUT_DIR = os.path.join(ROOT, "public", "model")
 os.makedirs(CKPT_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -28,22 +30,19 @@ for cls in ["studying", "not_studying"]:
             if f.lower().endswith((".png", ".jpg", ".jpeg"))]
     print(f"  {cls}: {len(imgs)}장")
 
-# TF file I/O can't handle non-ASCII paths or filenames; copy with ASCII names to temp dir
+# TF file I/O가 비ASCII 경로/파일명을 처리 못하므로 임시 디렉터리에 ASCII 이름으로 복사
 _tmp_root = tempfile.mkdtemp(prefix="ml_train_")
 DATA_DIR_TF = os.path.join(_tmp_root, "data")
 for cls in ["studying", "not_studying"]:
     dst_cls = os.path.join(DATA_DIR_TF, cls)
     os.makedirs(dst_cls, exist_ok=True)
-    src_cls = os.path.join(DATA_DIR, cls)
     idx = 0
-    for fname in os.listdir(src_cls):
+    for fname in os.listdir(os.path.join(DATA_DIR, cls)):
         if fname.lower().endswith((".png", ".jpg", ".jpeg")):
             ext = os.path.splitext(fname)[1].lower()
-            shutil.copy2(os.path.join(src_cls, fname),
+            shutil.copy2(os.path.join(DATA_DIR, cls, fname),
                          os.path.join(dst_cls, f"img_{idx:04d}{ext}"))
             idx += 1
-CKPT_DIR_TF = os.path.join(_tmp_root, "checkpoints")
-os.makedirs(CKPT_DIR_TF, exist_ok=True)
 print(f"  (임시 경로: {DATA_DIR_TF})")
 
 # ─── Data Augmentation ─────────────────────────────────────────────
@@ -65,7 +64,7 @@ full_ds = tf.keras.utils.image_dataset_from_directory(
     shuffle=True, seed=42,
 )
 class_names = full_ds.class_names
-print(f"클래스: {class_names}")   # ['not_studying'=0, 'studying'=1]
+print(f"클래스: {class_names}")
 
 normalize = tf.keras.layers.Rescaling(1.0 / 255)
 train_ds = full_ds.map(
@@ -84,7 +83,7 @@ total = sum(
 )
 steps_per_epoch = max(1, total // BATCH_SIZE)
 
-# ─── 모델 구성 ─────────────────────────────────────────────────────
+# ─── 모델 구성 (tf.keras로 학습) ──────────────────────────────────
 base = tf.keras.applications.MobileNetV2(
     input_shape=(IMG_SIZE, IMG_SIZE, 3), include_top=False, weights="imagenet"
 )
@@ -96,17 +95,14 @@ x       = tf.keras.layers.GlobalAveragePooling2D()(x)
 x       = tf.keras.layers.Dropout(0.3)(x)
 outputs = tf.keras.layers.Dense(1, activation="sigmoid")(x)
 model   = tf.keras.Model(inputs, outputs)
-
 model.compile(optimizer=tf.keras.optimizers.Adam(1e-3),
               loss="binary_crossentropy", metrics=["accuracy"])
 
 # ─── 1단계: top layer 학습 ─────────────────────────────────────────
-ckpt_path = os.path.join(CKPT_DIR_TF, "best_model.keras")
+ckpt_path = os.path.join(CKPT_DIR, "best_model.keras")
 print("\n[1단계] Top layer 학습...")
 model.fit(
-    train_ds,
-    steps_per_epoch=steps_per_epoch,
-    epochs=EPOCHS,
+    train_ds, steps_per_epoch=steps_per_epoch, epochs=EPOCHS,
     validation_data=val_ds,
     callbacks=[
         tf.keras.callbacks.ModelCheckpoint(
@@ -125,9 +121,7 @@ for layer in base.layers[:-30]:
 model.compile(optimizer=tf.keras.optimizers.Adam(1e-5),
               loss="binary_crossentropy", metrics=["accuracy"])
 model.fit(
-    train_ds,
-    steps_per_epoch=steps_per_epoch,
-    epochs=20,
+    train_ds, steps_per_epoch=steps_per_epoch, epochs=20,
     validation_data=val_ds,
     callbacks=[
         tf.keras.callbacks.ModelCheckpoint(
@@ -139,66 +133,69 @@ model.fit(
 )
 
 # ─── 최고 체크포인트 로드 ─────────────────────────────────────────
-print("\n최고 체크포인트 로드 중...")
+print(f"\n최고 체크포인트 로드: {ckpt_path}")
 best = tf.keras.models.load_model(ckpt_path)
+weights = [w.numpy() for w in best.weights]
+print(f"  가중치 텐서: {len(weights)}개")
 
-# ─── TF.js 변환 (tensorflowjs 패키지 불필요) ─────────────────────
-def save_as_tfjs(model, output_dir):
-    """
-    Keras 모델을 TF.js LayersModel 형식으로 직접 변환.
-    - output_dir/model.json   : 모델 구조 + 가중치 매니페스트
-    - output_dir/group1-shard1of1.bin : float32 가중치 바이너리
-    """
-    os.makedirs(output_dir, exist_ok=True)
+# ─── tf_keras(Keras 2)로 재구성 → TF.js 호환 포맷 출력 ───────────
+print("\ntf_keras(Keras 2)로 재구성 중...")
+base_v2 = tf_keras.applications.MobileNetV2(
+    input_shape=(IMG_SIZE, IMG_SIZE, 3), include_top=False, weights=None
+)
+base_v2.trainable = True
+for layer in base_v2.layers[:-30]:
+    layer.trainable = False
 
-    # 가중치 수집
-    weight_specs   = []
-    weights_bytes  = bytearray()
-
-    for var in model.weights:
-        arr   = var.numpy().astype(np.float32)
-        raw   = arr.tobytes()
-        weights_bytes.extend(raw)
-        weight_specs.append({
-            "name":  var.name,
-            "shape": list(arr.shape),
-            "dtype": "float32",
-        })
-
-    # .bin 파일 저장
-    shard = "group1-shard1of1.bin"
-    with open(os.path.join(output_dir, shard), "wb") as f:
-        f.write(bytes(weights_bytes))
-
-    # model.json 생성
-    topology = json.loads(model.to_json())
-    model_json = {
-        "modelTopology": topology,
-        "weightsManifest": [{
-            "paths": [shard],
-            "weights": weight_specs,
-        }],
-        "format": "layers-model",
-        "generatedBy": tf.__version__,
-        "convertedBy": "custom_converter_v1",
-        "signature": None,
-    }
-    with open(os.path.join(output_dir, "model.json"), "w") as f:
-        json.dump(model_json, f, indent=2)
-
-    mb = len(weights_bytes) / 1024 / 1024
-    print(f"  가중치: {len(weight_specs)}개  ({mb:.1f} MB)")
-    print(f"  저장: {output_dir}/model.json + {shard}")
+inp_v2  = tf_keras.Input(shape=(IMG_SIZE, IMG_SIZE, 3))
+x_v2    = base_v2(inp_v2, training=False)
+x_v2    = tf_keras.layers.GlobalAveragePooling2D()(x_v2)
+x_v2    = tf_keras.layers.Dropout(0.3)(x_v2)
+out_v2  = tf_keras.layers.Dense(1, activation="sigmoid")(x_v2)
+model_v2 = tf_keras.Model(inp_v2, out_v2)
+model_v2.set_weights(weights)
+print(f"  tf_keras 모델 가중치: {len(model_v2.weights)}개")
 
 print("\nTF.js 변환 중...")
 TF_OUTPUT_TMP = os.path.join(_tmp_root, "tfjs_output")
-save_as_tfjs(best, TF_OUTPUT_TMP)
+os.makedirs(TF_OUTPUT_TMP, exist_ok=True)
 
-# Copy output files to final destination (OUTPUT_DIR may contain non-ASCII chars)
+weight_specs  = []
+weights_bytes = bytearray()
+for var in model_v2.weights:
+    arr = var.numpy().astype(np.float32)
+    weights_bytes.extend(arr.tobytes())
+    weight_specs.append({"name": var.name, "shape": list(arr.shape), "dtype": "float32"})
+
+shard = "group1-shard1of1.bin"
+with open(os.path.join(TF_OUTPUT_TMP, shard), "wb") as f:
+    f.write(bytes(weights_bytes))
+
+# Keras 2 포맷: model_config 래핑 → TF.js loadLayersModel 호환
+model_config = json.loads(model_v2.to_json())
+model_json = {
+    "modelTopology": {
+        "keras_version": "2.15.0",
+        "backend": "tensorflow",
+        "model_config": model_config,
+    },
+    "weightsManifest": [{"paths": [shard], "weights": weight_specs}],
+    "format": "layers-model",
+    "generatedBy": tf.__version__,
+    "convertedBy": "custom_converter_v2_keras2",
+}
+with open(os.path.join(TF_OUTPUT_TMP, "model.json"), "w") as f:
+    json.dump(model_json, f, indent=2)
+
+# 최종 경로로 복사
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 for fname in os.listdir(TF_OUTPUT_TMP):
     shutil.copy2(os.path.join(TF_OUTPUT_TMP, fname), os.path.join(OUTPUT_DIR, fname))
-    print(f"  복사: {fname} → {OUTPUT_DIR}")
+
+mb = len(weights_bytes) / 1024 / 1024
+print(f"  가중치 {len(weight_specs)}개 ({mb:.1f} MB)")
+print(f"  체크포인트 보존: {ckpt_path}")
+print(f"  TF.js 출력: {OUTPUT_DIR}")
 
 shutil.rmtree(_tmp_root, ignore_errors=True)
 print("\n✅ 완료! npm run dev 후 C2/C3 세션에서 자동 로드됩니다.")
