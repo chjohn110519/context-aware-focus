@@ -243,7 +243,7 @@ export default function SessionPage() {
       <div className="mb-6 fade-in">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-semibold uppercase tracking-wider"
-            style={{ color: 'var(--accent)' }}>
+            style={{ color: 'var(--text-primary)' }}>
             📖 학습 자료 · PDF {currentSetId}
           </span>
           <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
@@ -262,7 +262,7 @@ export default function SessionPage() {
       <div className="space-y-4 pb-8">
         {studyMaterial?.sections.map((section, idx) => (
           <div key={idx} className="card fade-in" style={{ animationDelay: `${idx * 0.05}s` }}>
-            <h3 className="text-sm font-bold mb-2" style={{ color: 'var(--accent)' }}>
+            <h3 className="text-sm font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
               {section.heading}
             </h3>
             <p className="text-sm leading-relaxed" style={{
@@ -277,7 +277,7 @@ export default function SessionPage() {
         {/* 용어 정리 섹션 */}
         {studyMaterial?.terms && studyMaterial.terms.length > 0 && (
           <div className="card fade-in">
-            <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--accent)' }}>
+            <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               📚 용어 및 개념 정리
             </h3>
             <div className="space-y-2">
@@ -298,7 +298,7 @@ export default function SessionPage() {
         {/* 비판적 분석 섹션 */}
         {studyMaterial?.analysis && studyMaterial.analysis.length > 0 && (
           <div className="card fade-in">
-            <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--accent)' }}>
+            <h3 className="text-sm font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
               🔍 내용 분석
             </h3>
             <div className="space-y-2">
@@ -335,7 +335,7 @@ export default function SessionPage() {
     <div className="w-full max-w-3xl mx-auto px-4">
       <div className="mb-6 fade-in text-center">
         <span className="text-xs font-semibold uppercase tracking-wider"
-          style={{ color: 'var(--accent)' }}>
+          style={{ color: 'var(--text-primary)' }}>
           📝 퀴즈 · PDF {currentSetId}
         </span>
         <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
