@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import * as tf from '@tensorflow/tfjs';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type TF = typeof import('@tensorflow/tfjs') & { LayersModel: any };
 
 interface UseMLScreenClassifierOptions {
   enabled: boolean;
@@ -25,18 +27,23 @@ export function useMLScreenClassifier({
   const [captureActive, setCaptureActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const modelRef = useRef<tf.LayersModel | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tfRef = useRef<TF | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const modelRef = useRef<any>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const intervalRef = useRef<number | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // 모델 로드
+  // TF.js dynamic import + 모델 로드
   useEffect(() => {
     if (!enabled) return;
 
-    tf.loadLayersModel('/model/model.json')
-      .then(model => {
+    import('@tensorflow/tfjs')
+      .then(async (tf) => {
+        tfRef.current = tf as unknown as TF;
+        const model = await tf.loadLayersModel('/model/model.json');
         modelRef.current = model;
         setModelLoaded(true);
       })
@@ -53,10 +60,11 @@ export function useMLScreenClassifier({
 
   // 프레임 분류
   const classifyFrame = useCallback(() => {
+    const tf = tfRef.current;
     const model = modelRef.current;
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    if (!model || !video || !canvas || video.readyState < 2) return;
+    if (!tf || !model || !video || !canvas || video.readyState < 2) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -70,16 +78,17 @@ export function useMLScreenClassifier({
         .div(255)
         .expandDims(0);
 
-      const prediction = model.predict(tensor) as tf.Tensor;
-      const [studyingProb] = Array.from(prediction.dataSync());
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const prediction = model.predict(tensor) as any;
+      const [studyingProb] = Array.from(prediction.dataSync() as Float32Array);
 
-      const studying = studyingProb > 0.5;
+      const studying = (studyingProb as number) > 0.5;
       setIsStudying(studying);
-      setConfidence(studying ? studyingProb : 1 - studyingProb);
+      setConfidence(studying ? (studyingProb as number) : 1 - (studyingProb as number));
     });
   }, []);
 
-  // 인터벌 시작/중지 (캡처가 활성화됐을 때)
+  // 인터벌 시작/중지 (캡처 활성화됐을 때)
   useEffect(() => {
     if (!modelLoaded || !captureActive) return;
 
@@ -90,7 +99,7 @@ export function useMLScreenClassifier({
     };
   }, [modelLoaded, captureActive, classifyFrame, intervalMs]);
 
-  // 화면 공유 요청 (반드시 버튼 클릭 등 user gesture에서 호출)
+  // 화면 공유 요청 (user gesture에서 호출)
   const requestCapture = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
@@ -107,7 +116,6 @@ export function useMLScreenClassifier({
       canvas.height = 224;
       canvasRef.current = canvas;
 
-      // 사용자가 공유 종료 시 자동 처리
       stream.getVideoTracks()[0].addEventListener('ended', () => {
         setCaptureActive(false);
         setIsStudying(true);
