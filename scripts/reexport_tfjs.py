@@ -10,7 +10,7 @@ import tensorflow as tf
 import tf_keras
 
 ROOT       = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-CKPT       = os.path.join(ROOT, "checkpoints", "best_model.keras")
+CKPT       = os.path.join(os.path.expanduser("~"), "AppData", "Local", "ml_ckpts", "best_model.keras")
 OUTPUT_DIR = os.path.join(ROOT, "public", "model")
 IMG_SIZE   = 224
 
@@ -46,7 +46,7 @@ weights_bytes = bytearray()
 for var in new_model.weights:
     arr = var.numpy().astype(np.float32)
     weights_bytes.extend(arr.tobytes())
-    weight_specs.append({"name": var.name, "shape": list(arr.shape), "dtype": "float32"})
+    weight_specs.append({"name": var.name.split(":")[0], "shape": list(arr.shape), "dtype": "float32"})
 
 shard = "group1-shard1of1.bin"
 with open(os.path.join(OUTPUT_DIR, shard), "wb") as f:

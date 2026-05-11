@@ -8701,7 +8701,7 @@
       ],
       "weights": [
         {
-          "name": "Conv1/kernel:0",
+          "name": "Conv1/kernel",
           "shape": [
             3,
             3,
@@ -8711,35 +8711,35 @@
           "dtype": "float32"
         },
         {
-          "name": "bn_Conv1/gamma:0",
+          "name": "bn_Conv1/gamma",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "bn_Conv1/beta:0",
+          "name": "bn_Conv1/beta",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "bn_Conv1/moving_mean:0",
+          "name": "bn_Conv1/moving_mean",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "bn_Conv1/moving_variance:0",
+          "name": "bn_Conv1/moving_variance",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "expanded_conv_depthwise/depthwise_kernel:0",
+          "name": "expanded_conv_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -8749,35 +8749,35 @@
           "dtype": "float32"
         },
         {
-          "name": "expanded_conv_depthwise_BN/gamma:0",
+          "name": "expanded_conv_depthwise_BN/gamma",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "expanded_conv_depthwise_BN/beta:0",
+          "name": "expanded_conv_depthwise_BN/beta",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "expanded_conv_depthwise_BN/moving_mean:0",
+          "name": "expanded_conv_depthwise_BN/moving_mean",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "expanded_conv_depthwise_BN/moving_variance:0",
+          "name": "expanded_conv_depthwise_BN/moving_variance",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "expanded_conv_project/kernel:0",
+          "name": "expanded_conv_project/kernel",
           "shape": [
             1,
             1,
@@ -8787,35 +8787,35 @@
           "dtype": "float32"
         },
         {
-          "name": "expanded_conv_project_BN/gamma:0",
+          "name": "expanded_conv_project_BN/gamma",
           "shape": [
             16
           ],
           "dtype": "float32"
         },
         {
-          "name": "expanded_conv_project_BN/beta:0",
+          "name": "expanded_conv_project_BN/beta",
           "shape": [
             16
           ],
           "dtype": "float32"
         },
         {
-          "name": "expanded_conv_project_BN/moving_mean:0",
+          "name": "expanded_conv_project_BN/moving_mean",
           "shape": [
             16
           ],
           "dtype": "float32"
         },
         {
-          "name": "expanded_conv_project_BN/moving_variance:0",
+          "name": "expanded_conv_project_BN/moving_variance",
           "shape": [
             16
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_expand/kernel:0",
+          "name": "block_1_expand/kernel",
           "shape": [
             1,
             1,
@@ -8825,35 +8825,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_1_expand_BN/gamma:0",
+          "name": "block_1_expand_BN/gamma",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_expand_BN/beta:0",
+          "name": "block_1_expand_BN/beta",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_expand_BN/moving_mean:0",
+          "name": "block_1_expand_BN/moving_mean",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_expand_BN/moving_variance:0",
+          "name": "block_1_expand_BN/moving_variance",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_depthwise/depthwise_kernel:0",
+          "name": "block_1_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -8863,35 +8863,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_1_depthwise_BN/gamma:0",
+          "name": "block_1_depthwise_BN/gamma",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_depthwise_BN/beta:0",
+          "name": "block_1_depthwise_BN/beta",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_depthwise_BN/moving_mean:0",
+          "name": "block_1_depthwise_BN/moving_mean",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_depthwise_BN/moving_variance:0",
+          "name": "block_1_depthwise_BN/moving_variance",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_project/kernel:0",
+          "name": "block_1_project/kernel",
           "shape": [
             1,
             1,
@@ -8901,35 +8901,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_1_project_BN/gamma:0",
+          "name": "block_1_project_BN/gamma",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_project_BN/beta:0",
+          "name": "block_1_project_BN/beta",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_project_BN/moving_mean:0",
+          "name": "block_1_project_BN/moving_mean",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_1_project_BN/moving_variance:0",
+          "name": "block_1_project_BN/moving_variance",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_expand/kernel:0",
+          "name": "block_2_expand/kernel",
           "shape": [
             1,
             1,
@@ -8939,35 +8939,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_2_expand_BN/gamma:0",
+          "name": "block_2_expand_BN/gamma",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_expand_BN/beta:0",
+          "name": "block_2_expand_BN/beta",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_expand_BN/moving_mean:0",
+          "name": "block_2_expand_BN/moving_mean",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_expand_BN/moving_variance:0",
+          "name": "block_2_expand_BN/moving_variance",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_depthwise/depthwise_kernel:0",
+          "name": "block_2_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -8977,35 +8977,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_2_depthwise_BN/gamma:0",
+          "name": "block_2_depthwise_BN/gamma",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_depthwise_BN/beta:0",
+          "name": "block_2_depthwise_BN/beta",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_depthwise_BN/moving_mean:0",
+          "name": "block_2_depthwise_BN/moving_mean",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_depthwise_BN/moving_variance:0",
+          "name": "block_2_depthwise_BN/moving_variance",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_project/kernel:0",
+          "name": "block_2_project/kernel",
           "shape": [
             1,
             1,
@@ -9015,35 +9015,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_2_project_BN/gamma:0",
+          "name": "block_2_project_BN/gamma",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_project_BN/beta:0",
+          "name": "block_2_project_BN/beta",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_project_BN/moving_mean:0",
+          "name": "block_2_project_BN/moving_mean",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_2_project_BN/moving_variance:0",
+          "name": "block_2_project_BN/moving_variance",
           "shape": [
             24
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_expand/kernel:0",
+          "name": "block_3_expand/kernel",
           "shape": [
             1,
             1,
@@ -9053,35 +9053,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_3_expand_BN/gamma:0",
+          "name": "block_3_expand_BN/gamma",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_expand_BN/beta:0",
+          "name": "block_3_expand_BN/beta",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_expand_BN/moving_mean:0",
+          "name": "block_3_expand_BN/moving_mean",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_expand_BN/moving_variance:0",
+          "name": "block_3_expand_BN/moving_variance",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_depthwise/depthwise_kernel:0",
+          "name": "block_3_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -9091,35 +9091,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_3_depthwise_BN/gamma:0",
+          "name": "block_3_depthwise_BN/gamma",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_depthwise_BN/beta:0",
+          "name": "block_3_depthwise_BN/beta",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_depthwise_BN/moving_mean:0",
+          "name": "block_3_depthwise_BN/moving_mean",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_depthwise_BN/moving_variance:0",
+          "name": "block_3_depthwise_BN/moving_variance",
           "shape": [
             144
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_project/kernel:0",
+          "name": "block_3_project/kernel",
           "shape": [
             1,
             1,
@@ -9129,35 +9129,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_3_project_BN/gamma:0",
+          "name": "block_3_project_BN/gamma",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_project_BN/beta:0",
+          "name": "block_3_project_BN/beta",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_project_BN/moving_mean:0",
+          "name": "block_3_project_BN/moving_mean",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_3_project_BN/moving_variance:0",
+          "name": "block_3_project_BN/moving_variance",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_expand/kernel:0",
+          "name": "block_4_expand/kernel",
           "shape": [
             1,
             1,
@@ -9167,35 +9167,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_4_expand_BN/gamma:0",
+          "name": "block_4_expand_BN/gamma",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_expand_BN/beta:0",
+          "name": "block_4_expand_BN/beta",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_expand_BN/moving_mean:0",
+          "name": "block_4_expand_BN/moving_mean",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_expand_BN/moving_variance:0",
+          "name": "block_4_expand_BN/moving_variance",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_depthwise/depthwise_kernel:0",
+          "name": "block_4_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -9205,35 +9205,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_4_depthwise_BN/gamma:0",
+          "name": "block_4_depthwise_BN/gamma",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_depthwise_BN/beta:0",
+          "name": "block_4_depthwise_BN/beta",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_depthwise_BN/moving_mean:0",
+          "name": "block_4_depthwise_BN/moving_mean",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_depthwise_BN/moving_variance:0",
+          "name": "block_4_depthwise_BN/moving_variance",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_project/kernel:0",
+          "name": "block_4_project/kernel",
           "shape": [
             1,
             1,
@@ -9243,35 +9243,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_4_project_BN/gamma:0",
+          "name": "block_4_project_BN/gamma",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_project_BN/beta:0",
+          "name": "block_4_project_BN/beta",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_project_BN/moving_mean:0",
+          "name": "block_4_project_BN/moving_mean",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_4_project_BN/moving_variance:0",
+          "name": "block_4_project_BN/moving_variance",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_expand/kernel:0",
+          "name": "block_5_expand/kernel",
           "shape": [
             1,
             1,
@@ -9281,35 +9281,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_5_expand_BN/gamma:0",
+          "name": "block_5_expand_BN/gamma",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_expand_BN/beta:0",
+          "name": "block_5_expand_BN/beta",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_expand_BN/moving_mean:0",
+          "name": "block_5_expand_BN/moving_mean",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_expand_BN/moving_variance:0",
+          "name": "block_5_expand_BN/moving_variance",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_depthwise/depthwise_kernel:0",
+          "name": "block_5_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -9319,35 +9319,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_5_depthwise_BN/gamma:0",
+          "name": "block_5_depthwise_BN/gamma",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_depthwise_BN/beta:0",
+          "name": "block_5_depthwise_BN/beta",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_depthwise_BN/moving_mean:0",
+          "name": "block_5_depthwise_BN/moving_mean",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_depthwise_BN/moving_variance:0",
+          "name": "block_5_depthwise_BN/moving_variance",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_project/kernel:0",
+          "name": "block_5_project/kernel",
           "shape": [
             1,
             1,
@@ -9357,35 +9357,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_5_project_BN/gamma:0",
+          "name": "block_5_project_BN/gamma",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_project_BN/beta:0",
+          "name": "block_5_project_BN/beta",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_project_BN/moving_mean:0",
+          "name": "block_5_project_BN/moving_mean",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_5_project_BN/moving_variance:0",
+          "name": "block_5_project_BN/moving_variance",
           "shape": [
             32
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_expand/kernel:0",
+          "name": "block_6_expand/kernel",
           "shape": [
             1,
             1,
@@ -9395,35 +9395,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_6_expand_BN/gamma:0",
+          "name": "block_6_expand_BN/gamma",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_expand_BN/beta:0",
+          "name": "block_6_expand_BN/beta",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_expand_BN/moving_mean:0",
+          "name": "block_6_expand_BN/moving_mean",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_expand_BN/moving_variance:0",
+          "name": "block_6_expand_BN/moving_variance",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_depthwise/depthwise_kernel:0",
+          "name": "block_6_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -9433,35 +9433,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_6_depthwise_BN/gamma:0",
+          "name": "block_6_depthwise_BN/gamma",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_depthwise_BN/beta:0",
+          "name": "block_6_depthwise_BN/beta",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_depthwise_BN/moving_mean:0",
+          "name": "block_6_depthwise_BN/moving_mean",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_depthwise_BN/moving_variance:0",
+          "name": "block_6_depthwise_BN/moving_variance",
           "shape": [
             192
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_project/kernel:0",
+          "name": "block_6_project/kernel",
           "shape": [
             1,
             1,
@@ -9471,35 +9471,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_6_project_BN/gamma:0",
+          "name": "block_6_project_BN/gamma",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_project_BN/beta:0",
+          "name": "block_6_project_BN/beta",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_project_BN/moving_mean:0",
+          "name": "block_6_project_BN/moving_mean",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_6_project_BN/moving_variance:0",
+          "name": "block_6_project_BN/moving_variance",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_expand/kernel:0",
+          "name": "block_7_expand/kernel",
           "shape": [
             1,
             1,
@@ -9509,35 +9509,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_7_expand_BN/gamma:0",
+          "name": "block_7_expand_BN/gamma",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_expand_BN/beta:0",
+          "name": "block_7_expand_BN/beta",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_expand_BN/moving_mean:0",
+          "name": "block_7_expand_BN/moving_mean",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_expand_BN/moving_variance:0",
+          "name": "block_7_expand_BN/moving_variance",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_depthwise/depthwise_kernel:0",
+          "name": "block_7_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -9547,35 +9547,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_7_depthwise_BN/gamma:0",
+          "name": "block_7_depthwise_BN/gamma",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_depthwise_BN/beta:0",
+          "name": "block_7_depthwise_BN/beta",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_depthwise_BN/moving_mean:0",
+          "name": "block_7_depthwise_BN/moving_mean",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_depthwise_BN/moving_variance:0",
+          "name": "block_7_depthwise_BN/moving_variance",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_project/kernel:0",
+          "name": "block_7_project/kernel",
           "shape": [
             1,
             1,
@@ -9585,35 +9585,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_7_project_BN/gamma:0",
+          "name": "block_7_project_BN/gamma",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_project_BN/beta:0",
+          "name": "block_7_project_BN/beta",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_project_BN/moving_mean:0",
+          "name": "block_7_project_BN/moving_mean",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_7_project_BN/moving_variance:0",
+          "name": "block_7_project_BN/moving_variance",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_expand/kernel:0",
+          "name": "block_8_expand/kernel",
           "shape": [
             1,
             1,
@@ -9623,35 +9623,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_8_expand_BN/gamma:0",
+          "name": "block_8_expand_BN/gamma",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_expand_BN/beta:0",
+          "name": "block_8_expand_BN/beta",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_expand_BN/moving_mean:0",
+          "name": "block_8_expand_BN/moving_mean",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_expand_BN/moving_variance:0",
+          "name": "block_8_expand_BN/moving_variance",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_depthwise/depthwise_kernel:0",
+          "name": "block_8_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -9661,35 +9661,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_8_depthwise_BN/gamma:0",
+          "name": "block_8_depthwise_BN/gamma",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_depthwise_BN/beta:0",
+          "name": "block_8_depthwise_BN/beta",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_depthwise_BN/moving_mean:0",
+          "name": "block_8_depthwise_BN/moving_mean",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_depthwise_BN/moving_variance:0",
+          "name": "block_8_depthwise_BN/moving_variance",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_project/kernel:0",
+          "name": "block_8_project/kernel",
           "shape": [
             1,
             1,
@@ -9699,35 +9699,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_8_project_BN/gamma:0",
+          "name": "block_8_project_BN/gamma",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_project_BN/beta:0",
+          "name": "block_8_project_BN/beta",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_project_BN/moving_mean:0",
+          "name": "block_8_project_BN/moving_mean",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_8_project_BN/moving_variance:0",
+          "name": "block_8_project_BN/moving_variance",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_expand/kernel:0",
+          "name": "block_9_expand/kernel",
           "shape": [
             1,
             1,
@@ -9737,35 +9737,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_9_expand_BN/gamma:0",
+          "name": "block_9_expand_BN/gamma",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_expand_BN/beta:0",
+          "name": "block_9_expand_BN/beta",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_expand_BN/moving_mean:0",
+          "name": "block_9_expand_BN/moving_mean",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_expand_BN/moving_variance:0",
+          "name": "block_9_expand_BN/moving_variance",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_depthwise/depthwise_kernel:0",
+          "name": "block_9_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -9775,35 +9775,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_9_depthwise_BN/gamma:0",
+          "name": "block_9_depthwise_BN/gamma",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_depthwise_BN/beta:0",
+          "name": "block_9_depthwise_BN/beta",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_depthwise_BN/moving_mean:0",
+          "name": "block_9_depthwise_BN/moving_mean",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_depthwise_BN/moving_variance:0",
+          "name": "block_9_depthwise_BN/moving_variance",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_project/kernel:0",
+          "name": "block_9_project/kernel",
           "shape": [
             1,
             1,
@@ -9813,35 +9813,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_9_project_BN/gamma:0",
+          "name": "block_9_project_BN/gamma",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_project_BN/beta:0",
+          "name": "block_9_project_BN/beta",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_project_BN/moving_mean:0",
+          "name": "block_9_project_BN/moving_mean",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_9_project_BN/moving_variance:0",
+          "name": "block_9_project_BN/moving_variance",
           "shape": [
             64
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_expand/kernel:0",
+          "name": "block_10_expand/kernel",
           "shape": [
             1,
             1,
@@ -9851,35 +9851,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_10_expand_BN/gamma:0",
+          "name": "block_10_expand_BN/gamma",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_expand_BN/beta:0",
+          "name": "block_10_expand_BN/beta",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_expand_BN/moving_mean:0",
+          "name": "block_10_expand_BN/moving_mean",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_expand_BN/moving_variance:0",
+          "name": "block_10_expand_BN/moving_variance",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_depthwise/depthwise_kernel:0",
+          "name": "block_10_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -9889,35 +9889,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_10_depthwise_BN/gamma:0",
+          "name": "block_10_depthwise_BN/gamma",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_depthwise_BN/beta:0",
+          "name": "block_10_depthwise_BN/beta",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_depthwise_BN/moving_mean:0",
+          "name": "block_10_depthwise_BN/moving_mean",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_depthwise_BN/moving_variance:0",
+          "name": "block_10_depthwise_BN/moving_variance",
           "shape": [
             384
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_project/kernel:0",
+          "name": "block_10_project/kernel",
           "shape": [
             1,
             1,
@@ -9927,35 +9927,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_10_project_BN/gamma:0",
+          "name": "block_10_project_BN/gamma",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_project_BN/beta:0",
+          "name": "block_10_project_BN/beta",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_project_BN/moving_mean:0",
+          "name": "block_10_project_BN/moving_mean",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_10_project_BN/moving_variance:0",
+          "name": "block_10_project_BN/moving_variance",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_expand/kernel:0",
+          "name": "block_11_expand/kernel",
           "shape": [
             1,
             1,
@@ -9965,35 +9965,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_11_expand_BN/gamma:0",
+          "name": "block_11_expand_BN/gamma",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_expand_BN/beta:0",
+          "name": "block_11_expand_BN/beta",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_expand_BN/moving_mean:0",
+          "name": "block_11_expand_BN/moving_mean",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_expand_BN/moving_variance:0",
+          "name": "block_11_expand_BN/moving_variance",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_depthwise/depthwise_kernel:0",
+          "name": "block_11_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -10003,35 +10003,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_11_depthwise_BN/gamma:0",
+          "name": "block_11_depthwise_BN/gamma",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_depthwise_BN/beta:0",
+          "name": "block_11_depthwise_BN/beta",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_depthwise_BN/moving_mean:0",
+          "name": "block_11_depthwise_BN/moving_mean",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_depthwise_BN/moving_variance:0",
+          "name": "block_11_depthwise_BN/moving_variance",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_project/kernel:0",
+          "name": "block_11_project/kernel",
           "shape": [
             1,
             1,
@@ -10041,35 +10041,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_11_project_BN/gamma:0",
+          "name": "block_11_project_BN/gamma",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_project_BN/beta:0",
+          "name": "block_11_project_BN/beta",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_project_BN/moving_mean:0",
+          "name": "block_11_project_BN/moving_mean",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_11_project_BN/moving_variance:0",
+          "name": "block_11_project_BN/moving_variance",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_expand/kernel:0",
+          "name": "block_12_expand/kernel",
           "shape": [
             1,
             1,
@@ -10079,35 +10079,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_12_expand_BN/gamma:0",
+          "name": "block_12_expand_BN/gamma",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_expand_BN/beta:0",
+          "name": "block_12_expand_BN/beta",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_expand_BN/moving_mean:0",
+          "name": "block_12_expand_BN/moving_mean",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_expand_BN/moving_variance:0",
+          "name": "block_12_expand_BN/moving_variance",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_depthwise/depthwise_kernel:0",
+          "name": "block_12_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -10117,35 +10117,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_12_depthwise_BN/gamma:0",
+          "name": "block_12_depthwise_BN/gamma",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_depthwise_BN/beta:0",
+          "name": "block_12_depthwise_BN/beta",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_depthwise_BN/moving_mean:0",
+          "name": "block_12_depthwise_BN/moving_mean",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_depthwise_BN/moving_variance:0",
+          "name": "block_12_depthwise_BN/moving_variance",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_project/kernel:0",
+          "name": "block_12_project/kernel",
           "shape": [
             1,
             1,
@@ -10155,35 +10155,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_12_project_BN/gamma:0",
+          "name": "block_12_project_BN/gamma",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_project_BN/beta:0",
+          "name": "block_12_project_BN/beta",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_project_BN/moving_mean:0",
+          "name": "block_12_project_BN/moving_mean",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_12_project_BN/moving_variance:0",
+          "name": "block_12_project_BN/moving_variance",
           "shape": [
             96
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_expand/kernel:0",
+          "name": "block_13_expand/kernel",
           "shape": [
             1,
             1,
@@ -10193,35 +10193,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_13_expand_BN/gamma:0",
+          "name": "block_13_expand_BN/gamma",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_expand_BN/beta:0",
+          "name": "block_13_expand_BN/beta",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_expand_BN/moving_mean:0",
+          "name": "block_13_expand_BN/moving_mean",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_expand_BN/moving_variance:0",
+          "name": "block_13_expand_BN/moving_variance",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_depthwise/depthwise_kernel:0",
+          "name": "block_13_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -10231,35 +10231,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_13_depthwise_BN/gamma:0",
+          "name": "block_13_depthwise_BN/gamma",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_depthwise_BN/beta:0",
+          "name": "block_13_depthwise_BN/beta",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_depthwise_BN/moving_mean:0",
+          "name": "block_13_depthwise_BN/moving_mean",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_depthwise_BN/moving_variance:0",
+          "name": "block_13_depthwise_BN/moving_variance",
           "shape": [
             576
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_project/kernel:0",
+          "name": "block_13_project/kernel",
           "shape": [
             1,
             1,
@@ -10269,35 +10269,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_13_project_BN/gamma:0",
+          "name": "block_13_project_BN/gamma",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_project_BN/beta:0",
+          "name": "block_13_project_BN/beta",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_project_BN/moving_mean:0",
+          "name": "block_13_project_BN/moving_mean",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_13_project_BN/moving_variance:0",
+          "name": "block_13_project_BN/moving_variance",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_expand/kernel:0",
+          "name": "block_14_expand/kernel",
           "shape": [
             1,
             1,
@@ -10307,35 +10307,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_14_expand_BN/gamma:0",
+          "name": "block_14_expand_BN/gamma",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_expand_BN/beta:0",
+          "name": "block_14_expand_BN/beta",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_expand_BN/moving_mean:0",
+          "name": "block_14_expand_BN/moving_mean",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_expand_BN/moving_variance:0",
+          "name": "block_14_expand_BN/moving_variance",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_depthwise/depthwise_kernel:0",
+          "name": "block_14_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -10345,35 +10345,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_14_depthwise_BN/gamma:0",
+          "name": "block_14_depthwise_BN/gamma",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_depthwise_BN/beta:0",
+          "name": "block_14_depthwise_BN/beta",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_depthwise_BN/moving_mean:0",
+          "name": "block_14_depthwise_BN/moving_mean",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_depthwise_BN/moving_variance:0",
+          "name": "block_14_depthwise_BN/moving_variance",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_project/kernel:0",
+          "name": "block_14_project/kernel",
           "shape": [
             1,
             1,
@@ -10383,35 +10383,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_14_project_BN/gamma:0",
+          "name": "block_14_project_BN/gamma",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_project_BN/beta:0",
+          "name": "block_14_project_BN/beta",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_project_BN/moving_mean:0",
+          "name": "block_14_project_BN/moving_mean",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_14_project_BN/moving_variance:0",
+          "name": "block_14_project_BN/moving_variance",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_expand/kernel:0",
+          "name": "block_15_expand/kernel",
           "shape": [
             1,
             1,
@@ -10421,35 +10421,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_15_expand_BN/gamma:0",
+          "name": "block_15_expand_BN/gamma",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_expand_BN/beta:0",
+          "name": "block_15_expand_BN/beta",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_expand_BN/moving_mean:0",
+          "name": "block_15_expand_BN/moving_mean",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_expand_BN/moving_variance:0",
+          "name": "block_15_expand_BN/moving_variance",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_depthwise/depthwise_kernel:0",
+          "name": "block_15_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -10459,35 +10459,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_15_depthwise_BN/gamma:0",
+          "name": "block_15_depthwise_BN/gamma",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_depthwise_BN/beta:0",
+          "name": "block_15_depthwise_BN/beta",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_depthwise_BN/moving_mean:0",
+          "name": "block_15_depthwise_BN/moving_mean",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_depthwise_BN/moving_variance:0",
+          "name": "block_15_depthwise_BN/moving_variance",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_project/kernel:0",
+          "name": "block_15_project/kernel",
           "shape": [
             1,
             1,
@@ -10497,35 +10497,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_15_project_BN/gamma:0",
+          "name": "block_15_project_BN/gamma",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_project_BN/beta:0",
+          "name": "block_15_project_BN/beta",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_project_BN/moving_mean:0",
+          "name": "block_15_project_BN/moving_mean",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_15_project_BN/moving_variance:0",
+          "name": "block_15_project_BN/moving_variance",
           "shape": [
             160
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_expand/kernel:0",
+          "name": "block_16_expand/kernel",
           "shape": [
             1,
             1,
@@ -10535,35 +10535,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_16_expand_BN/gamma:0",
+          "name": "block_16_expand_BN/gamma",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_expand_BN/beta:0",
+          "name": "block_16_expand_BN/beta",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_expand_BN/moving_mean:0",
+          "name": "block_16_expand_BN/moving_mean",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_expand_BN/moving_variance:0",
+          "name": "block_16_expand_BN/moving_variance",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_depthwise/depthwise_kernel:0",
+          "name": "block_16_depthwise/depthwise_kernel",
           "shape": [
             3,
             3,
@@ -10573,35 +10573,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_16_depthwise_BN/gamma:0",
+          "name": "block_16_depthwise_BN/gamma",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_depthwise_BN/beta:0",
+          "name": "block_16_depthwise_BN/beta",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_depthwise_BN/moving_mean:0",
+          "name": "block_16_depthwise_BN/moving_mean",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_depthwise_BN/moving_variance:0",
+          "name": "block_16_depthwise_BN/moving_variance",
           "shape": [
             960
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_project/kernel:0",
+          "name": "block_16_project/kernel",
           "shape": [
             1,
             1,
@@ -10611,35 +10611,35 @@
           "dtype": "float32"
         },
         {
-          "name": "block_16_project_BN/gamma:0",
+          "name": "block_16_project_BN/gamma",
           "shape": [
             320
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_project_BN/beta:0",
+          "name": "block_16_project_BN/beta",
           "shape": [
             320
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_project_BN/moving_mean:0",
+          "name": "block_16_project_BN/moving_mean",
           "shape": [
             320
           ],
           "dtype": "float32"
         },
         {
-          "name": "block_16_project_BN/moving_variance:0",
+          "name": "block_16_project_BN/moving_variance",
           "shape": [
             320
           ],
           "dtype": "float32"
         },
         {
-          "name": "Conv_1/kernel:0",
+          "name": "Conv_1/kernel",
           "shape": [
             1,
             1,
@@ -10649,35 +10649,35 @@
           "dtype": "float32"
         },
         {
-          "name": "Conv_1_bn/gamma:0",
+          "name": "Conv_1_bn/gamma",
           "shape": [
             1280
           ],
           "dtype": "float32"
         },
         {
-          "name": "Conv_1_bn/beta:0",
+          "name": "Conv_1_bn/beta",
           "shape": [
             1280
           ],
           "dtype": "float32"
         },
         {
-          "name": "Conv_1_bn/moving_mean:0",
+          "name": "Conv_1_bn/moving_mean",
           "shape": [
             1280
           ],
           "dtype": "float32"
         },
         {
-          "name": "Conv_1_bn/moving_variance:0",
+          "name": "Conv_1_bn/moving_variance",
           "shape": [
             1280
           ],
           "dtype": "float32"
         },
         {
-          "name": "dense/kernel:0",
+          "name": "dense/kernel",
           "shape": [
             1280,
             1
@@ -10685,7 +10685,7 @@
           "dtype": "float32"
         },
         {
-          "name": "dense/bias:0",
+          "name": "dense/bias",
           "shape": [
             1
           ],

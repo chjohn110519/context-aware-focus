@@ -165,7 +165,7 @@ weights_bytes = bytearray()
 for var in model_v2.weights:
     arr = var.numpy().astype(np.float32)
     weights_bytes.extend(arr.tobytes())
-    weight_specs.append({"name": var.name, "shape": list(arr.shape), "dtype": "float32"})
+    weight_specs.append({"name": var.name.split(":")[0], "shape": list(arr.shape), "dtype": "float32"})
 
 shard = "group1-shard1of1.bin"
 with open(os.path.join(TF_OUTPUT_TMP, shard), "wb") as f:
