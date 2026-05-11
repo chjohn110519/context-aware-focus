@@ -378,7 +378,7 @@ export default function SessionPage() {
         totalQuestions={phase === 'quiz' ? questions.length : undefined}
         banner={cond === 'c2' && phase === 'study' ? <WarningBanner visible={warningVisible} /> : undefined}
         topRight={
-          cond === 'c1' && phase === 'study' ? (
+          (cond === 'c1' || cond === 'c3') && phase === 'study' ? (
             <ManualPauseButton
               isPaused={timer.isPaused}
               onPause={handleManualPause}

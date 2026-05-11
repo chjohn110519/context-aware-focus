@@ -71,8 +71,9 @@ export function useTimer({
     };
   }, [isRunning]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const minutes = Math.floor(remainingMs / 60000);
-  const seconds = Math.floor((remainingMs % 60000) / 1000);
+  const elapsedMs = durationMs - remainingMs;
+  const minutes = Math.floor(elapsedMs / 60000);
+  const seconds = Math.floor((elapsedMs % 60000) / 1000);
   const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
   return {

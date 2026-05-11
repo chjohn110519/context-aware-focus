@@ -42,7 +42,7 @@ export default function SessionLayout({
           <Timer formatted={timerFormatted} isWarning={timerWarning} />
           {isPaused && (
             <span className="text-xs px-2 py-1 rounded-md font-semibold"
-              style={{ background: 'rgba(239, 68, 68, 0.2)', color: '#fca5a5' }}>
+              style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#b91c1c', border: '1px solid rgba(239,68,68,0.4)' }}>
               ⏸ 일시정지
             </span>
           )}

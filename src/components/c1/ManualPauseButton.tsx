@@ -11,10 +11,10 @@ export default function ManualPauseButton({ isPaused, onPause, onResume }: Manua
       className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm transition-all"
       style={{
         background: isPaused
-          ? 'rgba(74, 222, 128, 0.15)'
-          : 'rgba(239, 68, 68, 0.15)',
-        border: `1px solid ${isPaused ? 'rgba(74, 222, 128, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
-        color: isPaused ? '#4ade80' : '#fca5a5',
+          ? 'rgba(22, 163, 74, 0.1)'
+          : 'rgba(239, 68, 68, 0.1)',
+        border: `1px solid ${isPaused ? 'rgba(22, 163, 74, 0.4)' : 'rgba(239, 68, 68, 0.4)'}`,
+        color: isPaused ? '#15803d' : '#b91c1c',
         cursor: 'pointer',
       }}
       onMouseEnter={(e) => { (e.target as HTMLElement).style.transform = 'scale(1.05)'; }}
