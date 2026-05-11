@@ -22,7 +22,8 @@ except ImportError:
     raise SystemExit(1)
 
 def collect(mode: str, count: int, interval: float) -> None:
-    save_dir = os.path.join("data", mode)
+    root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+    save_dir = os.path.join(root, "data", mode)
     os.makedirs(save_dir, exist_ok=True)
 
     print(f"[{mode}] 데이터 수집 시작 — {count}장, {interval}초 간격")

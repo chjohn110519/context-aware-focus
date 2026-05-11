@@ -30,3 +30,13 @@ yarn-debug.log*
 yarn-error.log*
 
 .vercel
+
+# ML training data (이미지 파일은 git 제외, 폴더 구조만 유지)
+data/studying/*
+data/not_studying/*
+!data/studying/.gitkeep
+!data/not_studying/.gitkeep
+
+# ML model weights (학습 후 public/model/ 에 직접 배치)
+public/model/*.bin
+public/model/*.json
