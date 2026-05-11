@@ -5,6 +5,7 @@ import { useActivityTracker } from '../hooks/useActivityTracker';
 import { useIdleDetector } from '../hooks/useIdleDetector';
 import { useTimer } from '../hooks/useTimer';
 import { useScreenMonitor } from '../hooks/useScreenMonitor';
+import { useMLScreenClassifier } from '../hooks/useMLScreenClassifier';
 import { exportSessionLog } from '../utils/logExporter';
 import {
   WARNING_DISPLAY_MS,
@@ -14,6 +15,7 @@ import {
   TREE_INITIAL_HEALTH,
   TREE_MAX_HEALTH,
   TREE_MIN_HEALTH,
+  ML_CLASSIFY_INTERVAL_MS,
 } from '../utils/constants';
 import type { Condition, QuestionSetId } from '../types/session';
 import type { Question } from '../types/question';
@@ -109,13 +111,41 @@ export default function SessionPage() {
   // ==========================================
   const screenMonitor = useScreenMonitor({
     enabled: (cond === 'c2' || cond === 'c3') && phase === 'study',
-    onDisengage: () => {
-      timer.pause();
-    },
-    onReengage: () => {
-      timer.resume();
-    },
   });
+
+  // ==========================================
+  // ML Screen Classifier (C2/C3 전용)
+  // ==========================================
+  const mlClassifier = useMLScreenClassifier({
+    enabled: (cond === 'c2' || cond === 'c3') && phase === 'study',
+    intervalMs: ML_CLASSIFY_INTERVAL_MS,
+  });
+
+  // 통합 이탈 판단: 창 전환 OR ML "공부중아님"
+  const mlDisengaged = mlClassifier.modelLoaded && mlClassifier.captureActive && !mlClassifier.isStudying;
+  const isAnyDisengaged = screenMonitor.isDisengaged || mlDisengaged;
+
+  // 이탈 판단에 따른 타이머 제어 (disengagement가 원인인 pause만 자동 resume)
+  const pausedByDisengagementRef = useRef(false);
+  useEffect(() => {
+    if (cond !== 'c2' && cond !== 'c3') return;
+    if (phase !== 'study') return;
+    if (isAnyDisengaged) {
+      if (timer.isRunning) {
+        timer.pause();
+        pausedByDisengagementRef.current = true;
+        logEvent('feedback_triggered', {
+          type: mlDisengaged ? 'ml_not_studying' : 'screen_disengage',
+          phase,
+        });
+      }
+    } else {
+      if (pausedByDisengagementRef.current && timer.isPaused) {
+        timer.resume();
+        pausedByDisengagementRef.current = false;
+      }
+    }
+  }, [isAnyDisengaged]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ==========================================
   // C1: Manual Pause Handlers (열품타)
@@ -173,7 +203,7 @@ export default function SessionPage() {
     treeIntervalRef.current = window.setInterval(() => {
       setTreeHealth(prev => {
         // Screen Monitor 이탈 OR idle일 때 시들기
-        const shouldWilt = screenMonitor.isDisengaged;
+        const shouldWilt = isAnyDisengaged;
         if (shouldWilt) {
           const newHealth = Math.max(TREE_MIN_HEALTH, prev - TREE_WILT_RATE);
           if (prev > TREE_MIN_HEALTH + TREE_WILT_RATE && newHealth <= prev - TREE_WILT_RATE) {
@@ -188,7 +218,7 @@ export default function SessionPage() {
     return () => {
       if (treeIntervalRef.current) clearInterval(treeIntervalRef.current);
     };
-  }, [cond, screenMonitor.isDisengaged, logEvent, phase]);
+  }, [cond, isAnyDisengaged, logEvent, phase]);
 
   // Handle scroll tracking during study phase
   const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
@@ -356,17 +386,42 @@ export default function SessionPage() {
   );
 
   // Compute isPaused state
-  const isPaused = timer.isPaused || screenMonitor.isDisengaged;
+  const isPaused = timer.isPaused || isAnyDisengaged;
 
   return (
     <>
-      {/* C2/C3: Screen Monitor Pause Overlay */}
+      {/* C2/C3: Screen Monitor / ML Pause Overlay */}
       {(cond === 'c2' || cond === 'c3') && phase === 'study' && (
         <PauseOverlay
-          visible={screenMonitor.isDisengaged}
+          visible={isAnyDisengaged}
           pausedMs={screenMonitor.pausedDurationMs}
           pauseCount={screenMonitor.pauseCount}
         />
+      )}
+
+      {/* ML 화면 공유 요청 배너 */}
+      {(cond === 'c2' || cond === 'c3') && phase === 'study' && mlClassifier.modelLoaded && !mlClassifier.captureActive && (
+        <div style={{
+          position: 'fixed', bottom: 88, right: 24, zIndex: 60,
+          background: '#ffffff', border: '1px solid #cccccc',
+          borderRadius: 12, padding: '12px 20px',
+          display: 'flex', alignItems: 'center', gap: 12,
+          boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+        }}>
+          <span style={{ fontSize: '0.875rem', color: '#111111' }}>
+            📷 화면 공유를 허용하면 집중도를 자동으로 측정합니다
+          </span>
+          <button
+            onClick={() => { void mlClassifier.requestCapture(); }}
+            style={{
+              background: '#111111', color: '#ffffff', border: 'none',
+              borderRadius: 8, padding: '6px 14px',
+              fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer',
+            }}
+          >
+            허용하기 →
+          </button>
+        </div>
       )}
 
       <SessionLayout

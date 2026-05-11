@@ -1,0 +1,4 @@
+tensorflow>=2.13
+tensorflowjs>=4.0
+pyautogui
+Pillow

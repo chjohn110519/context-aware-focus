@@ -5,10 +5,10 @@ import { SCREEN_MONITOR_DEBOUNCE_MS } from '../utils/constants';
 interface ScreenMonitorOptions {
   /** C2/C3에서만 true */
   enabled: boolean;
-  /** 이탈 감지 시 콜백 (타이머 정지) */
-  onDisengage: () => void;
-  /** 복귀 감지 시 콜백 (타이머 재개) */
-  onReengage: () => void;
+  /** 이탈 감지 시 콜백 (optional — 통합 effect로 대체 가능) */
+  onDisengage?: () => void;
+  /** 복귀 감지 시 콜백 (optional — 통합 effect로 대체 가능) */
+  onReengage?: () => void;
 }
 
 /**
@@ -42,7 +42,7 @@ export function useScreenMonitor({
     setIsDisengaged(true);
     setPauseCount(prev => prev + 1);
     logEvent('screen_monitor_pause', { reason: 'tab_or_window_switch' });
-    onDisengageRef.current();
+    onDisengageRef.current?.();
 
     // 일시정지 시간 카운터
     pauseIntervalRef.current = window.setInterval(() => {
@@ -60,7 +60,7 @@ export function useScreenMonitor({
     disengageTimeRef.current = null;
     setIsDisengaged(false);
     setPausedDurationMs(0);
-    onReengageRef.current();
+    onReengageRef.current?.();
 
     if (pauseIntervalRef.current) {
       clearInterval(pauseIntervalRef.current);

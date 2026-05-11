@@ -21,6 +21,9 @@ export const TREE_INITIAL_HEALTH = 30;
 export const TREE_MAX_HEALTH = 100;
 export const TREE_MIN_HEALTH = 0;
 
+// ===== ML Classifier =====
+export const ML_CLASSIFY_INTERVAL_MS = 2000;  // ML 이진분류 실행 간격
+
 // ===== Logging =====
 export const LOG_FLUSH_INTERVAL = 100;      // 100개 이벤트마다 localStorage flush
 export const LOCAL_STORAGE_KEY = 'caf_event_log';
