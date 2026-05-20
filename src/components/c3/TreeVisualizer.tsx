@@ -233,7 +233,7 @@ export default function TreeVisualizer({ health }: TreeVisualizerProps) {
           <div
             className="h-full rounded-full transition-all duration-1000"
             style={{
-              width: `${normalizedHealth * 100}%`,
+              width: `${Math.min(normalizedHealth * 100, 100)}%`,
               background: `linear-gradient(90deg, ${statusColor}, var(--accent))`,
             }}
           />

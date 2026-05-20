@@ -6,8 +6,8 @@ interface ForestWidgetProps {
 }
 
 /**
- * Forest Widget — 좌하단 소형 (160×160)
- * 새싹 → 나무 5단계 성장 과정
+ * Forest Widget — 좌하단 소형 (140×140)
+ * 씨앗 → 열매 7단계 성장 과정
  * 반짝임/glow 효과 없음
  */
 export default function ForestWidget({ health }: ForestWidgetProps) {
@@ -62,9 +62,10 @@ export default function ForestWidget({ health }: ForestWidgetProps) {
 
       // Stage 2+: 줄기/몸통
       if (stage >= 2) {
-        const trunkHeight = 15 + (stage - 2) * 22 + normalizedHealth * 8;
-        const trunkWidth = 3 + (stage - 2) * 2;
-        const trunkColor = `hsl(25, ${30 + normalizedHealth * 30}%, ${22 + normalizedHealth * 12}%)`;
+        const rawTrunkHeight = 15 + (stage - 2) * 22 + normalizedHealth * 8;
+        const trunkHeight = Math.min(rawTrunkHeight, H - 50); // canvas 내 clamp
+        const trunkWidth = Math.min(3 + (stage - 2) * 2, 13); // stage 7에서도 적정 두께
+        const trunkColor = `hsl(25, ${30 + Math.min(normalizedHealth, 1) * 30}%, ${22 + Math.min(normalizedHealth, 1) * 12}%)`;
 
         ctx.strokeStyle = trunkColor;
         ctx.lineWidth = trunkWidth;
@@ -268,7 +269,7 @@ export default function ForestWidget({ health }: ForestWidgetProps) {
           <div
             className="h-full rounded-full transition-all duration-1000"
             style={{
-              width: `${normalizedHealth * 100}%`,
+              width: `${Math.min(normalizedHealth * 100, 100)}%`,
               background: `linear-gradient(90deg, ${stageColor}, #4ade80)`,
             }}
           />

@@ -4,7 +4,6 @@ interface PauseOverlayProps {
   pauseCount: number;
   /** 수동 중지/재개 콜백 (C2/C3 AI 기반 타이머용) */
   isManuallyPaused?: boolean;
-  onManualPause?: () => void;
   onManualResume?: () => void;
 }
 
@@ -13,7 +12,6 @@ export default function PauseOverlay({
   pausedMs,
   pauseCount,
   isManuallyPaused = false,
-  onManualPause,
   onManualResume,
 }: PauseOverlayProps) {
   // AI 이탈 감지 overlay이거나, 수동 정지 상태일 때 표시

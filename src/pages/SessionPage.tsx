@@ -105,13 +105,16 @@ export default function SessionPage() {
   // C2/C3 수동 정지 상태 (AI 기반 타이머에서 사용자 직접 중지)
   const [aiManualPaused, setAiManualPaused] = useState(false);
 
-  // ML 이탈 시간/횟수 추적 (PauseOverlay 표시용)
+  // 일시정지 시간/횟수 추적 (PauseOverlay 표시용 — AI 이탈 + 수동 정지 공용)
   const [mlPausedMs, setMlPausedMs] = useState(0);
   const [mlPauseCount, setMlPauseCount] = useState(0);
   const mlPauseStartRef = useRef<number | null>(null);
   const mlPauseIntervalRef = useRef<number | null>(null);
+
+  // AI 이탈 또는 수동 정지 중 하나라도 활성이면 타이머 경과 추적
+  const isOverlayActive = mlDisengaged || aiManualPaused;
   useEffect(() => {
-    if (mlDisengaged) {
+    if (isOverlayActive) {
       if (mlPauseStartRef.current === null) {
         mlPauseStartRef.current = Date.now();
         setMlPauseCount(prev => prev + 1);
@@ -129,7 +132,7 @@ export default function SessionPage() {
         }
       }
     }
-  }, [mlDisengaged]);
+  }, [isOverlayActive]);
 
   // AI 이탈 판단에 따른 타이머 제어 (AI가 원인인 pause만 자동 resume)
   const pausedByDisengagementRef = useRef(false);
@@ -411,7 +414,6 @@ export default function SessionPage() {
           pausedMs={mlPausedMs}
           pauseCount={mlPauseCount}
           isManuallyPaused={aiManualPaused}
-          onManualPause={handleAiManualPause}
           onManualResume={handleAiManualResume}
         />
       )}
