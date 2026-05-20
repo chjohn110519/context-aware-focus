@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { ML_NOT_STUDYING_THRESHOLD, ML_SMOOTH_WINDOW } from '../utils/constants';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TF = typeof import('@tensorflow/tfjs') & { LayersModel: any };
@@ -35,6 +36,7 @@ export function useMLScreenClassifier({
   const streamRef = useRef<MediaStream | null>(null);
   const intervalRef = useRef<number | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const probHistoryRef = useRef<number[]>([]);
 
   // TF.js dynamic import + 모델 로드
   useEffect(() => {
@@ -82,9 +84,14 @@ export function useMLScreenClassifier({
       const prediction = model.predict(tensor) as any;
       const [studyingProb] = Array.from(prediction.dataSync() as Float32Array);
 
-      const studying = (studyingProb as number) > 0.5;
+      const history = probHistoryRef.current;
+      history.push(studyingProb as number);
+      if (history.length > ML_SMOOTH_WINDOW) history.shift();
+      const avgProb = history.reduce((a, b) => a + b, 0) / history.length;
+
+      const studying = avgProb > ML_NOT_STUDYING_THRESHOLD;
       setIsStudying(studying);
-      setConfidence(studying ? (studyingProb as number) : 1 - (studyingProb as number));
+      setConfidence(studying ? avgProb : 1 - avgProb);
     });
   }, []);
 
@@ -117,6 +124,7 @@ export function useMLScreenClassifier({
       canvasRef.current = canvas;
 
       stream.getVideoTracks()[0].addEventListener('ended', () => {
+        probHistoryRef.current = [];
         setCaptureActive(false);
         setIsStudying(true);
       });

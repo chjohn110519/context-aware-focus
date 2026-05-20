@@ -27,6 +27,8 @@ export type EventType =
   // Screen Monitoring events (C2/C3)
   | 'screen_monitor_pause'     // 다른 앱/탭 전환 → 타이머 자동 정지
   | 'screen_monitor_resume'    // 복귀 → 타이머 재개
+  // AI Study Classifier events (C2/C3 신규)
+  | 'ai_judgment'              // AI 판단 결과 로그 (STUDYING / NOT_STUDYING)
   // C1 manual pause
   | 'timer_manual_pause'       // 열품타: 수동 정지
   | 'timer_manual_resume';     // 열품타: 수동 재개

@@ -8,8 +8,10 @@ import numpy as np
 try:
     import tensorflow as tf
     import tf_keras
+    from sklearn.metrics import classification_report, confusion_matrix
+    from sklearn.utils.class_weight import compute_class_weight
 except ImportError as e:
-    print(f"pip install tensorflow==2.15.0 tf_keras  ({e})")
+    print(f"pip install tensorflow==2.15.0 tf_keras scikit-learn  ({e})")
     sys.exit(1)
 
 # ─── 설정 ──────────────────────────────────────────────────────────
@@ -54,34 +56,45 @@ augmentation = tf.keras.Sequential([
     tf.keras.layers.RandomContrast(0.2),
 ], name="augmentation")
 
-# ─── 데이터셋 로드 ─────────────────────────────────────────────────
+# ─── 데이터셋 로드 (80/20 train/val split) ────────────────────────
 print("\n데이터 로드 중...")
-full_ds = tf.keras.utils.image_dataset_from_directory(
-    DATA_DIR_TF,
+common_kwargs = dict(
     image_size=(IMG_SIZE, IMG_SIZE),
     batch_size=BATCH_SIZE,
     label_mode="binary",
     shuffle=True, seed=42,
+    validation_split=0.2,
 )
-class_names = full_ds.class_names
+train_ds_raw = tf.keras.utils.image_dataset_from_directory(
+    DATA_DIR_TF, subset="training", **common_kwargs)
+val_ds_raw = tf.keras.utils.image_dataset_from_directory(
+    DATA_DIR_TF, subset="validation", **common_kwargs)
+
+class_names = train_ds_raw.class_names
 print(f"클래스: {class_names}")
 
 normalize = tf.keras.layers.Rescaling(1.0 / 255)
-train_ds = full_ds.map(
+train_ds = train_ds_raw.map(
     lambda x, y: (augmentation(normalize(x), training=True), y),
     num_parallel_calls=tf.data.AUTOTUNE,
 ).cache().repeat().prefetch(tf.data.AUTOTUNE)
-val_ds = full_ds.map(
+val_ds = val_ds_raw.map(
     lambda x, y: (normalize(x), y),
     num_parallel_calls=tf.data.AUTOTUNE,
 ).prefetch(tf.data.AUTOTUNE)
 
-total = sum(
-    len([f for f in os.listdir(os.path.join(DATA_DIR_TF, c))
-         if f.lower().endswith((".png", ".jpg", ".jpeg"))])
-    for c in class_names
-)
-steps_per_epoch = max(1, total // BATCH_SIZE)
+# 클래스별 샘플 수 집계 → class weights 계산
+counts = {c: len([f for f in os.listdir(os.path.join(DATA_DIR_TF, c))
+                  if f.lower().endswith((".png", ".jpg", ".jpeg"))])
+          for c in class_names}
+print(f"  클래스 분포: {counts}")
+all_labels = np.array([i for i, c in enumerate(class_names) for _ in range(counts[c])])
+cw_values = compute_class_weight("balanced", classes=np.unique(all_labels), y=all_labels)
+class_weight = dict(enumerate(cw_values))
+print(f"  class_weight: {class_weight}")
+
+train_total = int(sum(counts.values()) * 0.8)
+steps_per_epoch = max(1, train_total // BATCH_SIZE)
 
 # ─── 모델 구성 (tf.keras로 학습) ──────────────────────────────────
 base = tf.keras.applications.MobileNetV2(
@@ -104,11 +117,12 @@ print("\n[1단계] Top layer 학습...")
 model.fit(
     train_ds, steps_per_epoch=steps_per_epoch, epochs=EPOCHS,
     validation_data=val_ds,
+    class_weight=class_weight,
     callbacks=[
         tf.keras.callbacks.ModelCheckpoint(
-            ckpt_path, monitor="loss", save_best_only=True, verbose=0),
+            ckpt_path, monitor="val_loss", save_best_only=True, verbose=0),
         tf.keras.callbacks.ReduceLROnPlateau(
-            monitor="loss", factor=0.5, patience=5, verbose=0),
+            monitor="val_loss", factor=0.5, patience=5, verbose=0),
     ],
     verbose=1,
 )
@@ -123,11 +137,12 @@ model.compile(optimizer=tf.keras.optimizers.Adam(1e-5),
 model.fit(
     train_ds, steps_per_epoch=steps_per_epoch, epochs=20,
     validation_data=val_ds,
+    class_weight=class_weight,
     callbacks=[
         tf.keras.callbacks.ModelCheckpoint(
-            ckpt_path, monitor="loss", save_best_only=True, verbose=0),
+            ckpt_path, monitor="val_loss", save_best_only=True, verbose=0),
         tf.keras.callbacks.EarlyStopping(
-            monitor="loss", patience=10, restore_best_weights=True),
+            monitor="val_loss", patience=10, restore_best_weights=True),
     ],
     verbose=1,
 )
@@ -137,6 +152,21 @@ print(f"\n최고 체크포인트 로드: {ckpt_path}")
 best = tf.keras.models.load_model(ckpt_path)
 weights = [w.numpy() for w in best.weights]
 print(f"  가중치 텐서: {len(weights)}개")
+
+# ─── Per-class 평가 지표 ──────────────────────────────────────────
+print("\n[평가] Validation set per-class metrics...")
+y_true, y_pred = [], []
+for x_batch, y_batch in val_ds_raw.map(lambda x, y: (normalize(x), y)):
+    probs = best.predict(x_batch, verbose=0).flatten()
+    y_pred.extend((probs > 0.5).astype(int).tolist())
+    y_true.extend(y_batch.numpy().astype(int).flatten().tolist())
+
+print(classification_report(y_true, y_pred, target_names=class_names, zero_division=0))
+cm = confusion_matrix(y_true, y_pred)
+print(f"Confusion matrix (행=실제, 열=예측):")
+print(f"  {'':15s} " + "  ".join(f"{c:>12s}" for c in class_names))
+for i, row in enumerate(cm):
+    print(f"  {class_names[i]:15s} " + "  ".join(f"{v:12d}" for v in row))
 
 # ─── tf_keras(Keras 2)로 재구성 → TF.js 호환 포맷 출력 ───────────
 print("\ntf_keras(Keras 2)로 재구성 중...")

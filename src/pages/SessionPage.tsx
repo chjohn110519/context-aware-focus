@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSession } from '../context/SessionContext';
 import { useTimer } from '../hooks/useTimer';
-import { useMLScreenClassifier } from '../hooks/useMLScreenClassifier';
+import { useAIStudyClassifier } from '../hooks/useAIStudyClassifier';
 import { exportSessionLog } from '../utils/logExporter';
 import {
   WARNING_DISPLAY_MS,
@@ -12,7 +12,6 @@ import {
   TREE_INITIAL_HEALTH,
   TREE_MAX_HEALTH,
   TREE_MIN_HEALTH,
-  ML_CLASSIFY_INTERVAL_MS,
 } from '../utils/constants';
 import type { Condition, QuestionSetId } from '../types/session';
 import type { Question } from '../types/question';
@@ -93,15 +92,15 @@ export default function SessionPage() {
   });
 
   // ==========================================
-  // ML Screen Classifier (C2/C3 전용)
+  // AI Study Classifier (C2/C3 전용)
   // ==========================================
-  const mlClassifier = useMLScreenClassifier({
+  const aiClassifier = useAIStudyClassifier({
     enabled: (cond === 'c2' || cond === 'c3') && phase === 'study',
-    intervalMs: ML_CLASSIFY_INTERVAL_MS,
+    studyMaterial,
   });
 
-  // ML "공부중아님" 판단 (모델 로드 + 캡처 활성화 + not studying)
-  const mlDisengaged = mlClassifier.modelLoaded && mlClassifier.captureActive && !mlClassifier.isStudying;
+  // AI "공부중아님" 판단 (캡처 활성화 + not studying)
+  const mlDisengaged = aiClassifier.captureActive && !aiClassifier.isStudying;
 
   // ML 이탈 시간/횟수 추적 (PauseOverlay 표시용)
   const [mlPausedMs, setMlPausedMs] = useState(0);
@@ -129,7 +128,7 @@ export default function SessionPage() {
     }
   }, [mlDisengaged]);
 
-  // ML 이탈 판단에 따른 타이머 제어 (ML이 원인인 pause만 자동 resume)
+  // AI 이탈 판단에 따른 타이머 제어 (AI가 원인인 pause만 자동 resume)
   const pausedByDisengagementRef = useRef(false);
   useEffect(() => {
     if (cond !== 'c2' && cond !== 'c3') return;
@@ -138,7 +137,7 @@ export default function SessionPage() {
       if (timer.isRunning) {
         timer.pause();
         pausedByDisengagementRef.current = true;
-        logEvent('feedback_triggered', { type: 'ml_not_studying', phase });
+        logEvent('feedback_triggered', { type: 'ai_not_studying', phase, reason: aiClassifier.lastReason });
       }
     } else {
       if (pausedByDisengagementRef.current && timer.isPaused) {
@@ -252,11 +251,11 @@ export default function SessionPage() {
     }
   }, [currentQuestionIdx, questions, logEvent, handleSessionEnd]);
 
-  // C2 focus status (ML 기반)
+  // C2 focus status (AI 기반)
   const getFocusStatus = (): 'good' | 'warn' | 'bad' => {
     if (mlDisengaged) return 'bad';
-    if (!mlClassifier.modelLoaded || !mlClassifier.captureActive) return 'warn';
-    return mlClassifier.confidence > 0.7 ? 'good' : 'warn';
+    if (!aiClassifier.captureActive) return 'warn';
+    return aiClassifier.confidence > 0.7 ? 'good' : 'warn';
   };
 
   const currentQuestion = questions[currentQuestionIdx];
@@ -398,8 +397,8 @@ export default function SessionPage() {
         />
       )}
 
-      {/* ML 화면 공유 요청 배너 */}
-      {(cond === 'c2' || cond === 'c3') && phase === 'study' && !mlClassifier.captureActive && (
+      {/* AI 화면 공유 요청 배너 */}
+      {(cond === 'c2' || cond === 'c3') && phase === 'study' && !aiClassifier.captureActive && (
         <div style={{
           position: 'fixed', bottom: 88, right: 24, zIndex: 60,
           background: '#ffffff', border: '1px solid #cccccc',
@@ -408,10 +407,10 @@ export default function SessionPage() {
           boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
         }}>
           <span style={{ fontSize: '0.875rem', color: '#111111' }}>
-            📷 화면 공유를 허용하면 집중도를 자동으로 측정합니다
+            📷 화면 공유를 허용하면 AI가 학습 여부를 자동으로 판단합니다
           </span>
           <button
-            onClick={() => { void mlClassifier.requestCapture(); }}
+            onClick={() => { void aiClassifier.requestCapture(); }}
             style={{
               background: '#111111', color: '#ffffff', border: 'none',
               borderRadius: 8, padding: '6px 14px',

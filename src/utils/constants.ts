@@ -21,8 +21,14 @@ export const TREE_INITIAL_HEALTH = 30;
 export const TREE_MAX_HEALTH = 100;
 export const TREE_MIN_HEALTH = 0;
 
-// ===== ML Classifier =====
-export const ML_CLASSIFY_INTERVAL_MS = 2000;  // ML 이진분류 실행 간격
+// ===== ML Classifier (레거시) =====
+export const ML_CLASSIFY_INTERVAL_MS = 2000;   // ML 이진분류 실행 간격
+export const ML_NOT_STUDYING_THRESHOLD = 0.35; // 판단 임계값
+export const ML_SMOOTH_WINDOW = 5;             // 이동 평균 윈도우 크기
+
+// ===== AI Study Classifier (신규) =====
+export const AI_GRACE_PERIOD_MS = 3000;        // 탭 전환 후 AI 판단 유예 시간 (PRD §5.5)
+export const AI_CLASSIFY_INTERVAL_MS = 30_000; // 이탈 상태 재판단 주기 (PRD §5.5)
 
 // ===== Logging =====
 export const LOG_FLUSH_INTERVAL = 100;      // 100개 이벤트마다 localStorage flush
