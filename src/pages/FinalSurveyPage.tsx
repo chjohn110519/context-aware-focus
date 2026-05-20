@@ -14,6 +14,8 @@ export default function FinalSurveyPage() {
   const { state } = useSession();
   const [preferred, setPreferred] = useState<Condition | null>(null);
   const [reason, setReason] = useState('');
+  const [c2Comments, setC2Comments] = useState('');
+  const [c3Comments, setC3Comments] = useState('');
   const [comments, setComments] = useState('');
 
   const handleSubmit = () => {
@@ -22,6 +24,8 @@ export default function FinalSurveyPage() {
       participantId: state.participantId,
       preferred,
       reason,
+      c2_ai_context_comments: c2Comments,
+      c3_emotional_stimulation_comments: c3Comments,
       comments,
       timestamp: new Date().toISOString(),
     };
@@ -109,7 +113,63 @@ export default function FinalSurveyPage() {
             />
           </div>
 
-          {/* Comments */}
+          {/* C2: AI 맥락 인식 코멘트 */}
+          <div className="card" style={{
+            background: 'rgba(30, 27, 75, 0.6)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(129, 140, 248, 0.2)',
+          }}>
+            <h3 className="text-white font-semibold mb-2">
+              C2: AI 맥락 인식 (Screen Monitoring) 에 대한 의견
+            </h3>
+            <p className="text-xs mb-3" style={{ color: '#94a3b8' }}>
+              AI가 학습 여부를 자동으로 판단하고, 경고를 표시하는 기능에 대해 어떻게 느끼셨나요?
+              <br />정확성, 유용성, 불편함 등 자유롭게 작성해주세요.
+            </p>
+            <textarea
+              value={c2Comments}
+              onChange={(e) => setC2Comments(e.target.value)}
+              rows={3}
+              className="w-full p-4 rounded-xl outline-none resize-none"
+              style={{
+                background: 'rgba(15, 23, 42, 0.8)',
+                border: '1px solid rgba(129, 140, 248, 0.2)',
+                color: '#e0e7ff',
+                fontFamily: 'var(--font-family)',
+              }}
+              placeholder="예: AI가 정확하게 판단했다 / 오탐이 있었다 / 경고가 학습에 도움이 됐다 등..."
+            />
+          </div>
+
+          {/* C3: 감성 자극 (Forest) 코멘트 */}
+          <div className="card" style={{
+            background: 'rgba(30, 27, 75, 0.6)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(129, 140, 248, 0.2)',
+          }}>
+            <h3 className="text-white font-semibold mb-2">
+              C3: 감성 자극 (나무 키우기) 에 대한 의견
+            </h3>
+            <p className="text-xs mb-3" style={{ color: '#94a3b8' }}>
+              나무가 자라고 시드는 시각적 피드백이 학습 집중에 어떤 영향을 주었나요?
+              <br />동기부여, 몰입감, 부담감 등 자유롭게 작성해주세요.
+            </p>
+            <textarea
+              value={c3Comments}
+              onChange={(e) => setC3Comments(e.target.value)}
+              rows={3}
+              className="w-full p-4 rounded-xl outline-none resize-none"
+              style={{
+                background: 'rgba(15, 23, 42, 0.8)',
+                border: '1px solid rgba(129, 140, 248, 0.2)',
+                color: '#e0e7ff',
+                fontFamily: 'var(--font-family)',
+              }}
+              placeholder="예: 나무가 시들면 학습에 집중하게 됐다 / 큰 나무 이후 동기가 줄었다 등..."
+            />
+          </div>
+
+          {/* General Comments */}
           <div className="card" style={{
             background: 'rgba(30, 27, 75, 0.6)',
             backdropFilter: 'blur(16px)',

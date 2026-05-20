@@ -10,7 +10,7 @@ import {
   TREE_GROW_RATE,
   TREE_WILT_RATE,
   TREE_INITIAL_HEALTH,
-  TREE_MAX_HEALTH,
+  TREE_EXTENDED_MAX,
   TREE_MIN_HEALTH,
 } from '../utils/constants';
 import type { Condition, QuestionSetId } from '../types/session';
@@ -102,6 +102,9 @@ export default function SessionPage() {
   // AI "공부중아님" 판단 (캡처 활성화 + not studying)
   const mlDisengaged = aiClassifier.captureActive && !aiClassifier.isStudying;
 
+  // C2/C3 수동 정지 상태 (AI 기반 타이머에서 사용자 직접 중지)
+  const [aiManualPaused, setAiManualPaused] = useState(false);
+
   // ML 이탈 시간/횟수 추적 (PauseOverlay 표시용)
   const [mlPausedMs, setMlPausedMs] = useState(0);
   const [mlPauseCount, setMlPauseCount] = useState(0);
@@ -160,6 +163,19 @@ export default function SessionPage() {
     logEvent('timer_manual_resume', {});
   }, [timer, logEvent]);
 
+  // C2/C3: AI 기반 타이머에서 수동 중지/재개
+  const handleAiManualPause = useCallback(() => {
+    timer.pause();
+    setAiManualPaused(true);
+    logEvent('timer_ai_manual_pause', { condition: cond });
+  }, [timer, logEvent, cond]);
+
+  const handleAiManualResume = useCallback(() => {
+    timer.resume();
+    setAiManualPaused(false);
+    logEvent('timer_ai_manual_resume', { condition: cond });
+  }, [timer, logEvent, cond]);
+
   // Start session on mount
   useEffect(() => {
     dispatch({ type: 'START_SESSION', timestamp: Date.now() });
@@ -211,7 +227,7 @@ export default function SessionPage() {
           }
           return newHealth;
         } else {
-          return Math.min(TREE_MAX_HEALTH, prev + TREE_GROW_RATE);
+          return Math.min(TREE_EXTENDED_MAX, prev + TREE_GROW_RATE);
         }
       });
     }, 100);
@@ -384,16 +400,19 @@ export default function SessionPage() {
   );
 
   // Compute isPaused state
-  const isPaused = timer.isPaused || mlDisengaged;
+  const isPaused = timer.isPaused || mlDisengaged || aiManualPaused;
 
   return (
     <>
-      {/* C2/C3: ML Pause Overlay */}
+      {/* C2/C3: ML Pause Overlay (AI 이탈 감지 + 수동 중지 공용) */}
       {(cond === 'c2' || cond === 'c3') && phase === 'study' && (
         <PauseOverlay
           visible={mlDisengaged}
           pausedMs={mlPausedMs}
           pauseCount={mlPauseCount}
+          isManuallyPaused={aiManualPaused}
+          onManualPause={handleAiManualPause}
+          onManualResume={handleAiManualResume}
         />
       )}
 
@@ -431,14 +450,29 @@ export default function SessionPage() {
         totalQuestions={phase === 'quiz' ? questions.length : undefined}
         banner={cond === 'c2' && phase === 'study' ? <WarningBanner visible={warningVisible} /> : undefined}
         topRight={
-          (cond === 'c1' || cond === 'c3') && phase === 'study' ? (
-            <ManualPauseButton
-              isPaused={timer.isPaused}
-              onPause={handleManualPause}
-              onResume={handleManualResume}
-            />
-          ) : cond === 'c2' && phase === 'study' ? (
-            <FocusIndicator status={getFocusStatus()} />
+          phase === 'study' ? (
+            cond === 'c1' ? (
+              <ManualPauseButton
+                isPaused={timer.isPaused}
+                onPause={handleManualPause}
+                onResume={handleManualResume}
+              />
+            ) : cond === 'c2' ? (
+              <div className="flex items-center gap-2">
+                <FocusIndicator status={getFocusStatus()} />
+                <ManualPauseButton
+                  isPaused={aiManualPaused}
+                  onPause={handleAiManualPause}
+                  onResume={handleAiManualResume}
+                />
+              </div>
+            ) : cond === 'c3' ? (
+              <ManualPauseButton
+                isPaused={aiManualPaused}
+                onPause={handleAiManualPause}
+                onResume={handleAiManualResume}
+              />
+            ) : undefined
           ) : undefined
         }
         forestWidget={cond === 'c3' && phase === 'study' ? <ForestWidget health={treeHealth} /> : undefined}

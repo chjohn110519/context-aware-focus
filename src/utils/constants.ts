@@ -19,6 +19,7 @@ export const TREE_GROW_RATE = 0.05;         // active 상태 초당 health 증�
 export const TREE_WILT_RATE = 0.15;         // idle 상태 초당 health 감소
 export const TREE_INITIAL_HEALTH = 30;
 export const TREE_MAX_HEALTH = 100;
+export const TREE_EXTENDED_MAX = 150;  // 꽃(Stage6) + 열매(Stage7) 확장 상한
 export const TREE_MIN_HEALTH = 0;
 
 // ===== ML Classifier (레거시) =====

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { TREE_MAX_HEALTH } from '../../utils/constants';
+import { TREE_MAX_HEALTH, TREE_EXTENDED_MAX } from '../../utils/constants';
 
 interface ForestWidgetProps {
   health: number; // 0 ~ 100
@@ -14,15 +14,17 @@ export default function ForestWidget({ health }: ForestWidgetProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
 
-  const normalizedHealth = Math.max(0, Math.min(TREE_MAX_HEALTH, health)) / TREE_MAX_HEALTH;
+  const normalizedHealth = Math.max(0, Math.min(TREE_EXTENDED_MAX, health)) / TREE_MAX_HEALTH;
 
-  // 5단계 성장 판별
+  // 7단계 성장 판별 (큰 나무 이후 꽃→열매)
   const getStage = (h: number): { label: string; emoji: string; stage: number } => {
     if (h < 0.2) return { label: '씨앗', emoji: '🌰', stage: 1 };
     if (h < 0.4) return { label: '새싹', emoji: '🌱', stage: 2 };
     if (h < 0.6) return { label: '작은 나무', emoji: '🪴', stage: 3 };
     if (h < 0.8) return { label: '중간 나무', emoji: '🌲', stage: 4 };
-    return { label: '큰 나무', emoji: '🌳', stage: 5 };
+    if (h < 1.0) return { label: '큰 나무', emoji: '🌳', stage: 5 };
+    if (h < 1.3) return { label: '꽃피는 나무', emoji: '🌸', stage: 6 };
+    return { label: '열매 나무', emoji: '🍎', stage: 7 };
   };
 
   const { label, emoji, stage } = getStage(normalizedHealth);
@@ -130,8 +132,8 @@ export default function ForestWidget({ health }: ForestWidgetProps) {
           ctx.fill();
         }
 
-        // Stage 5: 큰 나무 (풍성한 캐노피)
-        if (stage === 5) {
+        // Stage 5+: 큰 나무 base (풍성한 캐노피)
+        if (stage >= 5) {
           const topY = H - 26 - trunkHeight;
           // 가지 3개
           ctx.strokeStyle = trunkColor;
@@ -160,6 +162,64 @@ export default function ForestWidget({ health }: ForestWidgetProps) {
             ctx.ellipse(W / 2 + (layer % 2 === 0 ? -2 : 2), ly, lr, lr * 0.7, 0, 0, Math.PI * 2);
             ctx.fill();
           }
+
+          // Stage 6: 꽃피는 나무 — 캐노피 위에 꽃잎
+          if (stage >= 6) {
+            const flowerPositions = [
+              { dx: -18, dy: -14 }, { dx: 14, dy: -10 }, { dx: -8, dy: -20 },
+              { dx: 20, dy: -16 }, { dx: 0, dy: -24 }, { dx: -24, dy: -6 },
+              { dx: 10, dy: -22 }, { dx: -14, dy: -4 },
+            ];
+            for (const fp of flowerPositions) {
+              const fx = W / 2 + fp.dx;
+              const fy = topY + fp.dy;
+              // 꽃잎 (분홍/연보라 계열)
+              const petalHue = 330 + Math.random() * 40;
+              ctx.fillStyle = `hsla(${petalHue}, 70%, 75%, 0.85)`;
+              for (let p = 0; p < 5; p++) {
+                const pa = (p / 5) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.ellipse(fx + Math.cos(pa) * 3.5, fy + Math.sin(pa) * 3.5, 3, 2, pa, 0, Math.PI * 2);
+                ctx.fill();
+              }
+              // 꽃 중심 (노란색)
+              ctx.fillStyle = 'hsla(50, 90%, 65%, 0.9)';
+              ctx.beginPath();
+              ctx.arc(fx, fy, 2, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+
+          // Stage 7: 열매 나무 — 꽃 + 동글동글한 열매
+          if (stage >= 7) {
+            const fruitPositions = [
+              { dx: -20, dy: 2 }, { dx: 16, dy: -2 }, { dx: -6, dy: 8 },
+              { dx: 22, dy: 6 }, { dx: -16, dy: 12 }, { dx: 8, dy: 10 },
+            ];
+            for (const fp of fruitPositions) {
+              const fx = W / 2 + fp.dx;
+              const fy = topY + fp.dy;
+              // 열매 그림자
+              ctx.fillStyle = 'hsla(0, 70%, 35%, 0.4)';
+              ctx.beginPath();
+              ctx.arc(fx + 1, fy + 1, 4.5, 0, Math.PI * 2);
+              ctx.fill();
+              // 열매 (빨간/주황 계열)
+              const fruitHue = Math.random() > 0.5 ? 0 : 25;
+              const grad = ctx.createRadialGradient(fx - 1, fy - 1, 1, fx, fy, 4.5);
+              grad.addColorStop(0, `hsla(${fruitHue}, 85%, 60%, 0.95)`);
+              grad.addColorStop(1, `hsla(${fruitHue}, 75%, 40%, 0.9)`);
+              ctx.fillStyle = grad;
+              ctx.beginPath();
+              ctx.arc(fx, fy, 4.5, 0, Math.PI * 2);
+              ctx.fill();
+              // 하이라이트
+              ctx.fillStyle = 'hsla(0, 0%, 100%, 0.5)';
+              ctx.beginPath();
+              ctx.arc(fx - 1.5, fy - 1.5, 1.5, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
         }
       }
 
@@ -186,7 +246,7 @@ export default function ForestWidget({ health }: ForestWidgetProps) {
   }, [normalizedHealth, stage]);
 
   // 성장 상태 색상
-  const stageColors = ['#78350f', '#a16207', '#4ade80', '#22c55e', '#16a34a'];
+  const stageColors = ['#78350f', '#a16207', '#4ade80', '#22c55e', '#16a34a', '#f472b6', '#ef4444'];
   const stageColor = stageColors[stage - 1];
 
   return (

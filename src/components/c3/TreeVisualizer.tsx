@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { TREE_MAX_HEALTH } from '../../utils/constants';
+import { TREE_MAX_HEALTH, TREE_EXTENDED_MAX } from '../../utils/constants';
 
 interface TreeVisualizerProps {
   health: number; // 0 ~ 100
@@ -10,7 +10,7 @@ export default function TreeVisualizer({ health }: TreeVisualizerProps) {
   const animRef = useRef<number>(0);
   const particlesRef = useRef<Array<{ x: number; y: number; vy: number; vx: number; size: number; opacity: number; color: string }>>([]);
 
-  const normalizedHealth = Math.max(0, Math.min(TREE_MAX_HEALTH, health)) / TREE_MAX_HEALTH;
+  const normalizedHealth = Math.max(0, Math.min(TREE_EXTENDED_MAX, health)) / TREE_MAX_HEALTH;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -139,10 +139,64 @@ export default function TreeVisualizer({ health }: TreeVisualizerProps) {
       // Health glow effect
       if (normalizedHealth > 0.7) {
         const glowGradient = ctx.createRadialGradient(W / 2, topY, 0, W / 2, topY, 80);
-        glowGradient.addColorStop(0, `hsla(120, 60%, 50%, ${(normalizedHealth - 0.7) * 0.3})`);
+        glowGradient.addColorStop(0, `hsla(120, 60%, 50%, ${Math.min((normalizedHealth - 0.7) * 0.3, 0.15)})`);
         glowGradient.addColorStop(1, 'hsla(120, 60%, 50%, 0)');
         ctx.fillStyle = glowGradient;
         ctx.fillRect(0, 0, W, H);
+      }
+
+      // Stage 6+: 꽃 효과 (health > 1.0)
+      if (normalizedHealth >= 1.0) {
+        const flowerCount = Math.floor(6 + (normalizedHealth - 1.0) * 20);
+        for (let i = 0; i < flowerCount; i++) {
+          const angle = (i / flowerCount) * Math.PI * 2;
+          const dist = 25 + Math.random() * (35 + normalizedHealth * 15);
+          const fx = W / 2 + Math.cos(angle) * dist;
+          const fy = topY - 5 + Math.sin(angle) * dist * 0.5;
+          // 꽃잎
+          const petalHue = 330 + Math.random() * 50;
+          ctx.fillStyle = `hsla(${petalHue}, 70%, 75%, ${0.6 + Math.random() * 0.3})`;
+          for (let p = 0; p < 5; p++) {
+            const pa = (p / 5) * Math.PI * 2;
+            ctx.beginPath();
+            ctx.ellipse(fx + Math.cos(pa) * 5, fy + Math.sin(pa) * 5, 4, 2.5, pa, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.fillStyle = 'hsla(50, 90%, 65%, 0.9)';
+          ctx.beginPath();
+          ctx.arc(fx, fy, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Stage 7: 열매 효과 (health > 1.3)
+      if (normalizedHealth >= 1.3) {
+        const fruitCount = Math.floor(4 + (normalizedHealth - 1.3) * 15);
+        for (let i = 0; i < fruitCount; i++) {
+          const angle = (i / fruitCount) * Math.PI * 2 + 0.3;
+          const dist = 15 + Math.random() * 30;
+          const fx = W / 2 + Math.cos(angle) * dist;
+          const fy = topY + 10 + Math.sin(angle) * dist * 0.4;
+          // 그림자
+          ctx.fillStyle = 'hsla(0, 70%, 35%, 0.3)';
+          ctx.beginPath();
+          ctx.arc(fx + 1, fy + 1, 6, 0, Math.PI * 2);
+          ctx.fill();
+          // 열매
+          const fruitHue = Math.random() > 0.5 ? 0 : 30;
+          const grad = ctx.createRadialGradient(fx - 2, fy - 2, 1, fx, fy, 6);
+          grad.addColorStop(0, `hsla(${fruitHue}, 85%, 60%, 0.95)`);
+          grad.addColorStop(1, `hsla(${fruitHue}, 75%, 40%, 0.9)`);
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(fx, fy, 6, 0, Math.PI * 2);
+          ctx.fill();
+          // 하이라이트
+          ctx.fillStyle = 'hsla(0, 0%, 100%, 0.5)';
+          ctx.beginPath();
+          ctx.arc(fx - 2, fy - 2, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
 
       animRef.current = requestAnimationFrame(draw);
@@ -153,11 +207,15 @@ export default function TreeVisualizer({ health }: TreeVisualizerProps) {
   }, [normalizedHealth]);
 
   // Status label
-  const statusText = normalizedHealth > 0.7 ? '🌳 무성하게 자라는 중' :
+  const statusText = normalizedHealth >= 1.3 ? '🍎 열매가 열렸어요!' :
+    normalizedHealth >= 1.0 ? '🌸 꽃이 피어나는 중' :
+    normalizedHealth > 0.7 ? '🌳 무성하게 자라는 중' :
     normalizedHealth > 0.4 ? '🌱 성장 중' :
       normalizedHealth > 0.2 ? '🍂 시들어가는 중...' : '🥀 도움이 필요해요';
 
-  const statusColor = normalizedHealth > 0.7 ? 'var(--tree-healthy)' :
+  const statusColor = normalizedHealth >= 1.3 ? '#ef4444' :
+    normalizedHealth >= 1.0 ? '#f472b6' :
+    normalizedHealth > 0.7 ? 'var(--tree-healthy)' :
     normalizedHealth > 0.4 ? 'var(--accent)' :
       normalizedHealth > 0.2 ? 'var(--tree-wilting)' : 'var(--tree-dead)';
 
