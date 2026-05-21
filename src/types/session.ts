@@ -31,7 +31,10 @@ export type EventType =
   | 'ai_judgment'              // AI 판단 결과 로그 (STUDYING / NOT_STUDYING)
   // C1 manual pause
   | 'timer_manual_pause'       // 열품타: 수동 정지
-  | 'timer_manual_resume';     // 열품타: 수동 재개
+  | 'timer_manual_resume'      // 열품타: 수동 재개
+  // C2/C3 AI 기반 수동 정지/재개
+  | 'timer_ai_manual_pause'    // AI 타이머에서 수동 정지
+  | 'timer_ai_manual_resume';  // AI 타이머에서 수동 재개
 
 export interface SessionEvent {
   timestamp: number;
