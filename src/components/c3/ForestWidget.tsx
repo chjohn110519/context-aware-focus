@@ -191,13 +191,18 @@ export default function ForestWidget({ health }: ForestWidgetProps) {
             }
           }
 
-          // Stage 7: 열매 나무 — 꽃 + 동글동글한 열매
+          // Stage 7: 열매 나무 — health에 비례해 1→6개 점진 증가
           if (stage >= 7) {
             const fruitPositions = [
-              { dx: -20, dy: 2 }, { dx: 16, dy: -2 }, { dx: -6, dy: 8 },
-              { dx: 22, dy: 6 }, { dx: -16, dy: 12 }, { dx: 8, dy: 10 },
+              { dx: -20, dy: 2, hue: 0 }, { dx: 16, dy: -2, hue: 25 },
+              { dx: -6, dy: 8, hue: 0 }, { dx: 22, dy: 6, hue: 25 },
+              { dx: -16, dy: 12, hue: 0 }, { dx: 8, dy: 10, hue: 25 },
             ];
-            for (const fp of fruitPositions) {
+            // normalizedHealth 1.3 → 1개, 1.5(EXTENDED_MAX/MAX) → 6개
+            const fruitProgress = Math.min((normalizedHealth - 1.3) / 0.2, 1); // 0~1
+            const visibleFruits = Math.max(1, Math.ceil(fruitProgress * fruitPositions.length));
+            for (let fi = 0; fi < visibleFruits; fi++) {
+              const fp = fruitPositions[fi];
               const fx = W / 2 + fp.dx;
               const fy = topY + fp.dy;
               // 열매 그림자
@@ -206,10 +211,9 @@ export default function ForestWidget({ health }: ForestWidgetProps) {
               ctx.arc(fx + 1, fy + 1, 4.5, 0, Math.PI * 2);
               ctx.fill();
               // 열매 (빨간/주황 계열)
-              const fruitHue = Math.random() > 0.5 ? 0 : 25;
               const grad = ctx.createRadialGradient(fx - 1, fy - 1, 1, fx, fy, 4.5);
-              grad.addColorStop(0, `hsla(${fruitHue}, 85%, 60%, 0.95)`);
-              grad.addColorStop(1, `hsla(${fruitHue}, 75%, 40%, 0.9)`);
+              grad.addColorStop(0, `hsla(${fp.hue}, 85%, 60%, 0.95)`);
+              grad.addColorStop(1, `hsla(${fp.hue}, 75%, 40%, 0.9)`);
               ctx.fillStyle = grad;
               ctx.beginPath();
               ctx.arc(fx, fy, 4.5, 0, Math.PI * 2);

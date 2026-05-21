@@ -169,12 +169,15 @@ export default function TreeVisualizer({ health }: TreeVisualizerProps) {
         }
       }
 
-      // Stage 7: 열매 효과 (health > 1.3)
+      // Stage 7: 열매 효과 (health > 1.3) — 1개부터 점진 증가
       if (normalizedHealth >= 1.3) {
-        const fruitCount = Math.floor(4 + (normalizedHealth - 1.3) * 15);
+        const maxFruits = 8;
+        // normalizedHealth 1.3 → 1개, 1.5 → maxFruits개
+        const fruitProgress = Math.min((normalizedHealth - 1.3) / 0.2, 1);
+        const fruitCount = Math.max(1, Math.ceil(fruitProgress * maxFruits));
         for (let i = 0; i < fruitCount; i++) {
-          const angle = (i / fruitCount) * Math.PI * 2 + 0.3;
-          const dist = 15 + Math.random() * 30;
+          const angle = (i / maxFruits) * Math.PI * 2 + 0.3;
+          const dist = 15 + (i * 3.7) % 30;
           const fx = W / 2 + Math.cos(angle) * dist;
           const fy = topY + 10 + Math.sin(angle) * dist * 0.4;
           // 그림자
@@ -182,8 +185,8 @@ export default function TreeVisualizer({ health }: TreeVisualizerProps) {
           ctx.beginPath();
           ctx.arc(fx + 1, fy + 1, 6, 0, Math.PI * 2);
           ctx.fill();
-          // 열매
-          const fruitHue = Math.random() > 0.5 ? 0 : 30;
+          // 열매 (빨간/주황 교대)
+          const fruitHue = i % 2 === 0 ? 0 : 30;
           const grad = ctx.createRadialGradient(fx - 2, fy - 2, 1, fx, fy, 6);
           grad.addColorStop(0, `hsla(${fruitHue}, 85%, 60%, 0.95)`);
           grad.addColorStop(1, `hsla(${fruitHue}, 75%, 40%, 0.9)`);
