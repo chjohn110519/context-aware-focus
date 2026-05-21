@@ -15,7 +15,7 @@ export const WARNING_DISPLAY_MS = 5_000;    // 경고 배너 표시 시간
 export const WARNING_COOLDOWN_MS = 30_000;  // 경고 재발동 쿨다운
 
 // ===== C3 Tree =====
-export const TREE_GROW_RATE = 0.05;         // active 상태 초당 health 증가
+export const TREE_GROW_RATE = 0.02;         // active 상태 초당 health 증가 (100ms 간격, 10분에 최종단계 도달)
 export const TREE_WILT_RATE = 0.15;         // idle 상태 초당 health 감소
 export const TREE_INITIAL_HEALTH = 30;
 export const TREE_MAX_HEALTH = 100;
