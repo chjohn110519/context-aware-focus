@@ -1,13 +1,13 @@
 import type { Assignment, Condition, QuestionSetId } from '../types/session';
 
-// 18명 = 6패턴 × 3반복 (Full Latin Square counterbalancing)
+// 18명 = 6패턴 × 3반복 (Condition만 Latin Square, PDF 순서는 A→B→C 고정)
 const ASSIGNMENT_TABLE: Record<number, { order: Condition[]; sets: QuestionSetId[] }> = {
   1:  { order: ['c1', 'c2', 'c3'], sets: ['A', 'B', 'C'] },
-  2:  { order: ['c1', 'c3', 'c2'], sets: ['B', 'C', 'A'] },
-  3:  { order: ['c2', 'c1', 'c3'], sets: ['C', 'A', 'B'] },
+  2:  { order: ['c1', 'c3', 'c2'], sets: ['A', 'B', 'C'] },
+  3:  { order: ['c2', 'c1', 'c3'], sets: ['A', 'B', 'C'] },
   4:  { order: ['c2', 'c3', 'c1'], sets: ['A', 'B', 'C'] },
-  5:  { order: ['c3', 'c1', 'c2'], sets: ['B', 'C', 'A'] },
-  6:  { order: ['c3', 'c2', 'c1'], sets: ['C', 'A', 'B'] },
+  5:  { order: ['c3', 'c1', 'c2'], sets: ['A', 'B', 'C'] },
+  6:  { order: ['c3', 'c2', 'c1'], sets: ['A', 'B', 'C'] },
 };
 
 export function getAssignment(participantId: number): Assignment {
